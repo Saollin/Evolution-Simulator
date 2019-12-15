@@ -54,25 +54,24 @@ public class Genotype {
             secondPartOfGenes = Arrays.copyOfRange(this.genes, secondIndex + 1, size - 1);
         }
         int [] genesOfChildren = new int[size];
-        for(int i = 0; i < size; i++){
-            if(i<firstPartOfGenes.length){
-                genesOfChildren[i] = firstPartOfGenes[i];
-            }
-            else{
-                genesOfChildren[i] = secondPartOfGenes[i - firstPartOfGenes.length];
-            }
+        for(int i = 0; i < firstPartOfGenes.length; i++){
+            genesOfChildren[i] = firstPartOfGenes[i];
         }
+        for(int i = 0; i < secondPartOfGenes.length; i++){
+            genesOfChildren[i + firstPartOfGenes.length] = secondPartOfGenes[i];
+        }
+        Genotype child = new Genotype(genesOfChildren);
         if(!isGenotypeRight(genesOfChildren)){
-            genesOfChildren = repairGenotype(genesOfChildren);
+            child.repairGenotype();
         }
-        return new Genotype(genesOfChildren);
+        return child;
     }
 
-    public int [] repairGenotype(int [] wrongGenotype){
+    public void repairGenotype(){
         int [] numberOfGenType = new int[numberOfGens];
-        int [] result = wrongGenotype;
-        for(int i = 0; i < wrongGenotype.length; i++){
-            numberOfGenType[wrongGenotype[i]]++;
+        int [] resultGens = this.genes;
+        for(int i = 0; i < this.genes.length; i++){
+            numberOfGenType[this.genes[i]]++;
         }
         Random generator = new Random();
         for(int i = 0; i < numberOfGens; i++){
@@ -88,21 +87,21 @@ public class Genotype {
                     indexOfChangingGen += numberOfGenType[index];
                     index++;
                 }
-                result[indexOfChangingGen - 1] = i;
+                resultGens[indexOfChangingGen - 1] = i;
             }
         }
-        Arrays.sort(result);
-        if(!isGenotypeRight(result)){
-            result = repairGenotype(result);
+        Arrays.sort(resultGens);
+        this.genes = resultGens;
+        if(!isGenotypeRight(resultGens)){
+            this.repairGenotype();
         }
-        return result;
     }
 
-    public boolean isGenotypeRight(int [] genotype){
+    public static boolean isGenotypeRight(int [] genotype){
         if(genotype[genotype.length - 1] != numberOfGens - 1)
             return false;
-        for(int i = 1; i < genotype.length;){
-            if(genotype[i] == genotype[i-1] || genotype[i] == genotype[i-1] + 1)
+        for(int i = 1; i < genotype.length; i++){
+            if(genotype[i] != genotype[i-1] && genotype[i] != genotype[i-1] + 1)
                 return false;
         }
         return true;
