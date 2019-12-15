@@ -1,6 +1,6 @@
 package pl.obiektowe.projekt1.simulator;
 
-public class Animal {
+public class Animal implements IMapElement{
     private Vector2d position;
     private int energy;
     private Genotype genotypeOfAnimal;
@@ -18,4 +18,8 @@ public class Animal {
     }
 
 
+    @Override
+    public Vector2d getPosition() {
+        return this.position;
+    }
 }
