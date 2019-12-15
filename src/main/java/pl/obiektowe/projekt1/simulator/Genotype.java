@@ -6,7 +6,7 @@ import java.util.Random;
 public class Genotype {
     private static int numberOfGenes = 32;
 
-    private int[] genes = new int[numberOfGenes];
+    private int[] genes;
 
     Genotype(){
         this.genes = generateRandomGenes();
