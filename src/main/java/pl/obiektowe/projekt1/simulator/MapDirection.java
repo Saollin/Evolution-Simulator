@@ -9,7 +9,7 @@ public enum MapDirection {
     private final int directionNumber;
     private static final Map<Integer, MapDirection> DIRECTION_MAP = new HashMap<>();
 
-    private MapDirection(int directionNumber) {
+    MapDirection(int directionNumber) {
         this.directionNumber = directionNumber;
     }
 
