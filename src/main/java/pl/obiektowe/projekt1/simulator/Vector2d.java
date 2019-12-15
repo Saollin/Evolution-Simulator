@@ -1,46 +1,46 @@
 package pl.obiektowe.projekt1.simulator;
 
-public class Position {
+public class Vector2d {
     private final int x;
     private final int y;
 
-    public Position(int x, int y){
+    public Vector2d(int x, int y){
         this.x = x;
         this.y = y;
     }
 
-    boolean precedes(Position other){
+    boolean precedes(Vector2d other){
         return this.x <= other.x && this.y <= other.y;
     }
 
-    boolean follows(Position other){
+    boolean follows(Vector2d other){
         return this.x >= other.x && this.y >= other.y;
     }
 
-    Position upperRight(Position other){
+    Vector2d upperRight(Vector2d other){
         int newX, newY;
         newX = this.x > other.x ? this.x : other.x;
         newY = this.y > other.y ? this.y : other.y;
-        return new Position(newX, newY);
+        return new Vector2d(newX, newY);
     }
 
-    Position lowerLeft(Position other){
+    Vector2d lowerLeft(Vector2d other){
         int newX, newY;
         newX = this.x < other.x ? this.x : other.x;
         newY = this.y < other.y ? this.y : other.y;
-        return new Position(newX, newY);
+        return new Vector2d(newX, newY);
     }
 
-    Position add(Position other){
-        return new Position(this.x + other.x, this.y + other.y);
+    Vector2d add(Vector2d other){
+        return new Vector2d(this.x + other.x, this.y + other.y);
     }
 
-    Position subtract(Position other){
-        return new Position(this.x - other.x, this.y - other.y);
+    Vector2d subtract(Vector2d other){
+        return new Vector2d(this.x - other.x, this.y - other.y);
     }
 
-    Position opposite(){
-        return new Position((-1) * this.x, (-1) * this.y);
+    Vector2d opposite(){
+        return new Vector2d((-1) * this.x, (-1) * this.y);
     }
 
     @Override
@@ -54,9 +54,9 @@ public class Position {
             return false;
         if(this == other)
             return true;
-        if(!(other instanceof Position))
+        if(!(other instanceof Vector2d))
             return false;
-        Position that = (Position) other;
+        Vector2d that = (Vector2d) other;
         return (this.x == that.x) && (this.y == that.y);
     }
 

@@ -1,8 +1,5 @@
 package pl.obiektowe.projekt1.simulator;
 
-import pl.obiektowe.projekt1.simulator.IMapElement;
-import pl.obiektowe.projekt1.simulator.Position;
-
 public interface IWorldMap {
 
     /**
@@ -11,7 +8,7 @@ public interface IWorldMap {
      * @param position The position checked for the movement possibility.
      * @return True if the object can move to that position.
      */
-    boolean canMoveTo(Position position);
+    boolean canMoveTo(Vector2d position);
 
     /**
      * Place a animal on the map.
@@ -27,10 +24,10 @@ public interface IWorldMap {
      * confused with canMove since there might be empty positions where the animal
      * cannot move.
      *
-     * @param position Position to check.
+     * @param position Vector2d to check.
      * @return True if the position is occupied.
      */
-    boolean isOccupied(Position position);
+    boolean isOccupied(Vector2d position);
 
     /**
      * Return an object at a given position.
@@ -38,5 +35,5 @@ public interface IWorldMap {
      * @param position The position of the object.
      * @return Object or null if the position is not occupied.
      */
-    Object objectAt(Position position);
+    Object objectAt(Vector2d position);
 }
