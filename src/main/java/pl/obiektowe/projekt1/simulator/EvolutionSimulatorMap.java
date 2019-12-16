@@ -54,6 +54,26 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         this.jungleUpperRight = new Vector2d(xUpperRight, yUpperRight);
     }
 
+    public Vector2d countRightPositionOnTheMap(Vector2d position){
+        int rightX;
+        int rightY;
+
+        if(position.getX() < mapLowerLeft.getX()){
+            rightX = width - Math.abs(position.getX());
+        }
+        else{
+            rightX = position.getX() % width;
+        }
+
+        if(position.getY() < mapLowerLeft.getY()){
+            rightY = height - Math.abs(position.getY());
+        }
+        else{
+            rightY = position.getY() %  height;
+        }
+        return new Vector2d(rightX,rightY);
+    }
+
     @Override
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
 
@@ -66,7 +86,7 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
 
     @Override
     public boolean place(IMapElement element) {
-        return false;
+
     }
 
     @Override
