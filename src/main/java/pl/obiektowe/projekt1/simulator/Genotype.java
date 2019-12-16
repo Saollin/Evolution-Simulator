@@ -107,6 +107,11 @@ public class Genotype {
         return true;
     }
 
+    public int randomGen(){
+        Random generator = new Random();
+        return this.genes[generator.nextInt(size)];
+    }
+
     public int[] getGenes() {
         return genes;
     }
