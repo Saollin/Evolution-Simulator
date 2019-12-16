@@ -80,11 +80,6 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
     }
 
     @Override
-    public boolean canMoveTo(Vector2d position) {
-        return false;
-    }
-
-    @Override
     public boolean place(IMapElement element) {
 
     }
