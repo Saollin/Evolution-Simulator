@@ -46,6 +46,12 @@ public class Animal implements IMapElement{
         }
     }
 
+    //moving
+    public void rotate(){
+        MapDirection newDirection = MapDirection.valueOfDirectionNumber(this.genotypeOfAnimal.randomGen());
+        this.directionOfAnimal = newDirection;
+    }
+
     @Override
     public Vector2d getPosition() {
         return this.position;
