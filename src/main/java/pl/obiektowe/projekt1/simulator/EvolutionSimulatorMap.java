@@ -104,7 +104,6 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
             list.add(newAnimal);
         }
         animalList.add(newAnimal);
-        newAnimal.addObservers(this);
         return true;
     }
 
@@ -119,7 +118,6 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
             list.remove(animal);
             if(list.size() == 0)
                 animals.remove(animal.getPosition());
-            animal.removeObservers(this);
         }
         return true;
     }
