@@ -35,9 +35,9 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         this.mapLowerLeft = new Vector2d(0,0);
         this.mapUpperRight = new Vector2d(width-1,height-1);
 
-        this.moveEnergy = moveEnergy;
+        this.moveEnergy = (-1) * moveEnergy;
         this.plantEnergy = plantEnergy;
-        this.startEnergy = (-1) * startEnergy;
+        this.startEnergy = startEnergy;
 
         this.jungleRatio = jungleRatio;
         this.jungleWidth = (int) jungleRatio * width;
@@ -138,6 +138,7 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         for(Animal a:animalList){
             a.rotate();
             a.move(MoveDirection.FORWARD);
+            a.changeEnergy(moveEnergy);
         }
     }
 
