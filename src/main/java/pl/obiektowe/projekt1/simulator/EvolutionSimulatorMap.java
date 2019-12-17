@@ -266,4 +266,15 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         return result;
     }
 
+    public Map<Vector2d, Plant> getPlants() {
+        return plants;
+    }
+
+    public Map<Vector2d, LinkedList<Animal>> getAnimals() {
+        return animals;
+    }
+
+    public LinkedList<Animal> getAnimalList() {
+        return animalList;
+    }
 }
