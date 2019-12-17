@@ -143,6 +143,11 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
     }
 
 
+    }
+
+    public boolean canPlantBePlaced(Vector2d position){
+        return objectAt(position) == null;
+    }
 
     @Override
     public Object objectAt(Vector2d position) {
