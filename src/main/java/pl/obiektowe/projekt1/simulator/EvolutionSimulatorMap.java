@@ -1,9 +1,6 @@
 package pl.obiektowe.projekt1.simulator;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap {
 
@@ -170,6 +167,32 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         for(Plant p : eatedPlants){
             plants.remove(p);
         }
+    }
+
+
+    /**
+     * This method returns empty Position next to other position.
+     * If all position around are occupied it returns random position next to.
+     *
+     * @param position
+     * @return
+     */
+    public Vector2d randomPositionNextToOtherPosition(Vector2d position){
+        ArrayList<Integer> directions = new ArrayList<>();
+        for(int i = 0; i < 8; i++){
+            directions.add(i);
+        }
+        Random generator = new Random();
+        Vector2d result;
+        MapDirection direction;
+        int index;
+        do{
+            index = directions.get(generator.nextInt(directions.size()));
+            direction = MapDirection.valueOfDirectionNumber(index);
+            result = countRightPositionOnTheMap(position.add(direction.toUnitVector()));
+            directions.remove(index);
+        }while(objectAt(result) != null && directions.size() != 0);
+        return result;
     }
 
     public boolean canPlantBePlaced(Vector2d position){
