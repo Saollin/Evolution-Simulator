@@ -27,6 +27,10 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
     private Map<Vector2d, LinkedList<Animal>> animals = new HashMap<>();
     private LinkedList<Animal> animalList = new LinkedList<>();
 
+    //static arrayList to generate random Positions in Jungle or Steppe
+    private static ArrayList<Vector2d> allPositionsInJungle;
+    private static ArrayList<Vector2d> allPositionsInSteppe;
+
     public EvolutionSimulatorMap(int width, int height, double jungleRatio, int startEnergy, int moveEnergy, int plantEnergy) {
         this.width = width;
         this.height = height;
@@ -49,6 +53,24 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
 
         this.jungleLowerLeft = new Vector2d(xLowerLeft, yLowerLeft);
         this.jungleUpperRight = new Vector2d(xUpperRight, yUpperRight);
+
+        allPositionsInSteppe = new ArrayList<>();
+        allPositionsInJungle = new ArrayList<>();
+
+        for(int i = mapLowerLeft.getX(); i < mapUpperRight.getX(); i++){
+            for(int j = mapLowerLeft.getY(); j < mapUpperRight.getY(); j++){
+                Vector2d position = new Vector2d(i,j);
+                allPositionsInSteppe.add(position);
+            }
+        }
+
+        for(int i = jungleLowerLeft.getX(); i < jungleUpperRight.getX(); i++){
+            for(int j = jungleLowerLeft.getY(); j < jungleUpperRight.getY(); j++){
+                Vector2d position = new Vector2d(i,j);
+                allPositionsInJungle.add(position);
+                allPositionsInSteppe.remove(position);
+            }
+        }
     }
 
     public Vector2d countRightPositionOnTheMap(Vector2d position){
@@ -229,4 +251,5 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         }
         return result;
     }
+
 }
