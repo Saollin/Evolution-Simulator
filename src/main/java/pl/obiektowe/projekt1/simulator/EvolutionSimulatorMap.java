@@ -28,8 +28,8 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
     private LinkedList<Animal> animalList = new LinkedList<>();
 
     //static arrayList to generate random Positions in Jungle or Steppe
-    private static ArrayList<Vector2d> allPositionsInJungle;
-    private static ArrayList<Vector2d> allPositionsInSteppe;
+    private static ArrayList<Vector2d> jungle;
+    private static ArrayList<Vector2d> steppe;
 
     public EvolutionSimulatorMap(int width, int height, double jungleRatio, int startEnergy, int moveEnergy, int plantEnergy) {
         this.width = width;
@@ -54,21 +54,21 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         this.jungleLowerLeft = new Vector2d(xLowerLeft, yLowerLeft);
         this.jungleUpperRight = new Vector2d(xUpperRight, yUpperRight);
 
-        allPositionsInSteppe = new ArrayList<>();
-        allPositionsInJungle = new ArrayList<>();
+        steppe = new ArrayList<>();
+        jungle = new ArrayList<>();
 
         for(int i = mapLowerLeft.getX(); i < mapUpperRight.getX(); i++){
             for(int j = mapLowerLeft.getY(); j < mapUpperRight.getY(); j++){
                 Vector2d position = new Vector2d(i,j);
-                allPositionsInSteppe.add(position);
+                steppe.add(position);
             }
         }
 
         for(int i = jungleLowerLeft.getX(); i < jungleUpperRight.getX(); i++){
             for(int j = jungleLowerLeft.getY(); j < jungleUpperRight.getY(); j++){
                 Vector2d position = new Vector2d(i,j);
-                allPositionsInJungle.add(position);
-                allPositionsInSteppe.remove(position);
+                jungle.add(position);
+                steppe.remove(position);
             }
         }
     }
@@ -238,8 +238,28 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         return result;
     }
 
+    public void spawnGrassInSteppeAndJungle(){
+        spawnGrassIn(jungle);
+        spawnGrassIn(steppe);
+    }
+
+    public void spawnGrassIn(ArrayList<Vector2d> area){
+        ArrayList<Vector2d> positionsInJungle = cloneGivenArraysList(area);
+        Random generator = new Random();
+        while(positionsInJungle.size() > 0){
+            Vector2d newPosition = positionsInJungle.get(generator.nextInt(positionsInJungle.size()));
+            if(canPlantBePlaced(newPosition)){
+                place(new Plant(newPosition));
+                break;
+            }
+            else{
+                positionsInJungle.remove(newPosition);
+            }
+        }
+    }
 
     public ArrayList<Vector2d> cloneGivenArraysList(ArrayList<Vector2d> given){
+
         ArrayList<Vector2d> clone = new ArrayList<>(given.size());
         for(Vector2d position : given){
             clone.add(new Vector2d(position));
