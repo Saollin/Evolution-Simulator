@@ -2,6 +2,8 @@ package pl.obiektowe.projekt1.simulator;
 
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class EvolutionSimulatorMapTest {
@@ -57,5 +59,15 @@ class EvolutionSimulatorMapTest {
 
         //then
         assertEquals(expected,countedPosition);
+    }
+
+    @Test
+    void shouldSpawnGrassLastNoLongerThan10Ms(){
+        //given
+        //when
+        //then
+        assertTimeout(Duration.ofMillis(5), () -> {
+            map.spawnGrassInSteppeAndJungle();
+        });
     }
 }
