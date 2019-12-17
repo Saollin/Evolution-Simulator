@@ -80,6 +80,7 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
     public boolean place(IMapElement element) {
         if(element instanceof Animal){
             addAnimal((Animal) element);
+            ((Animal) element).addObservers(this);
         }
         if(element instanceof Plant){
             if(plants.get(element.getPosition()) == null){
@@ -126,6 +127,7 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         for(Animal a:animalList){
             if(a.isDead()){
                 removeAnimal(a);
+                a.removeObservers(this);
             }
         }
     }
