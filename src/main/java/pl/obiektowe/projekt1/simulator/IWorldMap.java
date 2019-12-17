@@ -11,7 +11,7 @@ public interface IWorldMap {
      */
     boolean place(IMapElement element);
 
-
+    Vector2d countRightPositionOnTheMap(Vector2d position);
 
     /**
      * Return an object at a given position.

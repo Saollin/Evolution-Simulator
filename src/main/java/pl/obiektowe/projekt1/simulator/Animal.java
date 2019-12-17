@@ -58,20 +58,16 @@ public class Animal implements IMapElement{
             case FORWARD:
                 unitVector = this.directionOfAnimal.toUnitVector();
                 oldPosition = this.getPosition();
-                newPosition = position.add(unitVector);
-                if (map.canMoveTo(newPosition)) {
-                    this.position = newPosition;
-                    this.notifyObservers(oldPosition,newPosition);
-                }
+                newPosition = map.countRightPositionOnTheMap(position.add(unitVector));
+                this.position = newPosition;
+                this.notifyObservers(oldPosition, newPosition);
                 break;
             case BACKWARD:
                 unitVector = this.directionOfAnimal.toUnitVector();
                 oldPosition = this.getPosition();
-                newPosition = position.subtract(unitVector);
-                if (map.canMoveTo(newPosition)) {
-                    this.position = newPosition;
-                    this.notifyObservers(oldPosition,newPosition);
-                }
+                newPosition = map.countRightPositionOnTheMap(position.subtract(unitVector));
+                this.position = newPosition;
+                this.notifyObservers(oldPosition, newPosition);
                 break;
             default:
                 return;
@@ -82,7 +78,7 @@ public class Animal implements IMapElement{
         int childEnergy = (int)(0.25 * this.energy) + (int)(0.25 * secondParent.energy);
         this.changeEnergy((int)-(0.25 * this.energy));
         secondParent.changeEnergy((int)-(0.25 * secondParent.energy));
-        Vector2d positionOfChild;
+        Vector2d positionOfChild = new Vector2d(0,0);
         Genotype genotypeOfChild = this.genotypeOfAnimal.createNewGenotypeWithSecondParent(secondParent.getGenotypeOfAnimal());
         Animal child = new Animal(map,positionOfChild,childEnergy, genotypeOfChild);
     }
