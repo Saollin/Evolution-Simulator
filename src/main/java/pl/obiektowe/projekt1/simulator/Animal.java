@@ -7,6 +7,7 @@ public class Animal implements IMapElement{
     private MapDirection directionOfAnimal;
     private IWorldMap map;
     private Vector2d position;
+
     private int energy;
     private ArrayList<IPositionChangeObserver> observers = new ArrayList<>();
     private Genotype genotypeOfAnimal;
@@ -90,6 +91,10 @@ public class Animal implements IMapElement{
 
     public Genotype getGenotypeOfAnimal() {
         return genotypeOfAnimal;
+    }
+
+    public int getEnergy() {
+        return energy;
     }
 
 }
