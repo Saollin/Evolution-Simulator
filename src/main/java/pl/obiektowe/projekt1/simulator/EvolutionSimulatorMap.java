@@ -1,5 +1,6 @@
 package pl.obiektowe.projekt1.simulator;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -142,7 +143,33 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         }
     }
 
+    public void eating(){
+        LinkedList<Plant> eatedPlants = new LinkedList<>();
 
+        for(Plant plant:plants.values()){
+            LinkedList<Animal> hungryAnimals = animals.get(plant.getPosition());
+            if(hungryAnimals != null && hungryAnimals.size() > 0){
+                LinkedList<Animal> theStrongestOnes = new LinkedList<>();
+                theStrongestOnes.add(hungryAnimals.get(0));
+                for(int i = 1; i < hungryAnimals.size(); i++){
+                    if(theStrongestOnes.getFirst().getEnergy() < hungryAnimals.get(i).getEnergy()) {
+                        theStrongestOnes.clear();
+                        theStrongestOnes.add(hungryAnimals.get(i));
+                    }
+                    else if(theStrongestOnes.getFirst().getEnergy() == hungryAnimals.get(i).getEnergy()) {
+                        theStrongestOnes.add(hungryAnimals.get(i));
+                    }
+                }
+                for(Animal animal:theStrongestOnes){
+                    animal.changeEnergy(plantEnergy/theStrongestOnes.size());
+                }
+                eatedPlants.add(plant);
+            }
+        }
+
+        for(Plant p : eatedPlants){
+            plants.remove(p);
+        }
     }
 
     public boolean canPlantBePlaced(Vector2d position){
