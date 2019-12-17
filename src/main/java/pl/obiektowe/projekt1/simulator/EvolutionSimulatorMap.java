@@ -146,6 +146,11 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
 
     @Override
     public Object objectAt(Vector2d position) {
-        return null;
+        Object result;
+        result = plants.get(position);
+        if(result == null){
+            result = animals.get(position).getFirst();
+        }
+        return result;
     }
 }
