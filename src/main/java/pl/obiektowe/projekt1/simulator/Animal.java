@@ -41,9 +41,9 @@ public class Animal implements IMapElement{
         observers.remove(observer);
     }
 
-    public void notifyObservers(Vector2d oldPosition, Vector2d newPosition){
+    public void notifyObservers(Vector2d oldPosition, Vector2d newPosition, Object a){
         for(IPositionChangeObserver observer:observers){
-            observer.positionChanged(oldPosition,newPosition);
+            observer.positionChanged(oldPosition,newPosition, a);
         }
     }
 
@@ -61,14 +61,14 @@ public class Animal implements IMapElement{
                 oldPosition = this.getPosition();
                 newPosition = map.countRightPositionOnTheMap(position.add(unitVector));
                 this.position = newPosition;
-                this.notifyObservers(oldPosition, newPosition);
+                this.notifyObservers(oldPosition, newPosition, this);
                 break;
             case BACKWARD:
                 unitVector = this.directionOfAnimal.toUnitVector();
                 oldPosition = this.getPosition();
                 newPosition = map.countRightPositionOnTheMap(position.subtract(unitVector));
                 this.position = newPosition;
-                this.notifyObservers(oldPosition, newPosition);
+                this.notifyObservers(oldPosition, newPosition, this);
                 break;
             default:
                 return;

@@ -72,14 +72,15 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
     }
 
     @Override
-    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
-
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition, Object a) {
+        removeAnimal((Animal) a, oldPosition);
+        addAnimal((Animal) a, newPosition);
     }
 
     @Override
     public boolean place(IMapElement element) {
         if(element instanceof Animal){
-            addAnimal((Animal) element);
+            addAnimal((Animal) element, element.getPosition());
             ((Animal) element).addObservers(this);
         }
         if(element instanceof Plant){
@@ -93,13 +94,13 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         return true;
     }
 
-    public boolean addAnimal(Animal newAnimal){
+    public boolean addAnimal(Animal newAnimal, Vector2d position){
         if(newAnimal == null) return false;
-        LinkedList<Animal> list = animals.get(newAnimal.getPosition());
+        LinkedList<Animal> list = animals.get(position);
         if(list == null){
             LinkedList<Animal> pom = new LinkedList<>();
             pom.add(newAnimal);
-            animals.put(newAnimal.getPosition(), pom);
+            animals.put(position, pom);
         }
         else{
             list.add(newAnimal);
@@ -108,8 +109,8 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         return true;
     }
 
-    public boolean removeAnimal(Animal animal){
-        LinkedList<Animal> list = animals.get(animal.getPosition());
+    public boolean removeAnimal(Animal animal, Vector2d position){
+        LinkedList<Animal> list = animals.get(position);
         if(list == null)
             throw new IllegalArgumentException("Animal on position:" + animal.getPosition() + "already not exist");
         else if(list.size() == 0){
@@ -118,7 +119,7 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         else{
             list.remove(animal);
             if(list.size() == 0)
-                animals.remove(animal.getPosition());
+                animals.remove(position);
         }
         return true;
     }
@@ -126,7 +127,7 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
     public void removeDeadAnimals(){
         for(Animal a:animalList){
             if(a.isDead()){
-                removeAnimal(a);
+                removeAnimal(a, a.getPosition());
                 a.removeObservers(this);
             }
         }
