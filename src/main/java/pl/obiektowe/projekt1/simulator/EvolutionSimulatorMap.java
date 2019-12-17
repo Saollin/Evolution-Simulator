@@ -28,7 +28,6 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
     private Map<Vector2d,Plant> plants = new HashMap<>();
     private Map<Vector2d, LinkedList<Animal>> animals = new HashMap<>();
     private LinkedList<Animal> animalList = new LinkedList<>();
-    private LinkedList<Plant> plantList = new LinkedList<>();
 
     public EvolutionSimulatorMap(int width, int height, double jungleRatio, int startEnergy, int moveEnergy, int plantEnergy) {
         this.width = width;
@@ -81,13 +80,36 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
 
     @Override
     public boolean place(IMapElement element) {
-
+        if(element instanceof Animal){
+            addAnimal((Animal) element);
+            ((Animal) element).addObservers(this);
+        }
+        if(element instanceof Plant){
+            if(plants.get(element.getPosition()) == null){
+                plants.put(element.getPosition(), (Plant) element);
+            }
+            else{
+                return false;
+            }
+        }
+        return true;
     }
 
-    @Override
-    public boolean isOccupied(Vector2d position) {
-        return false;
+    public boolean addAnimal(Animal newAnimal){
+        if(newAnimal == null) return false;
+        LinkedList<Animal> list = animals.get(newAnimal.getPosition());
+        if(list == null){
+            LinkedList<Animal> pom = new LinkedList<>();
+            pom.add(newAnimal);
+            animals.put(newAnimal.getPosition(), pom);
+        }
+        else{
+            list.add(newAnimal);
+        }
+        animalList.add(newAnimal);
+        return true;
     }
+
 
     @Override
     public Object objectAt(Vector2d position) {
