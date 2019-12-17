@@ -75,13 +75,12 @@ public class Animal implements IMapElement{
         }
     }
 
-    public void copulate(Animal secondParent){
+    public Animal copulate(Animal secondParent, Vector2d positionOfChild){
         int childEnergy = (int)(0.25 * this.energy) + (int)(0.25 * secondParent.energy);
         this.changeEnergy((int)-(0.25 * this.energy));
         secondParent.changeEnergy((int)-(0.25 * secondParent.energy));
-        Vector2d positionOfChild = new Vector2d(0,0);
         Genotype genotypeOfChild = this.genotypeOfAnimal.createNewGenotypeWithSecondParent(secondParent.getGenotypeOfAnimal());
-        Animal child = new Animal(map,positionOfChild,childEnergy, genotypeOfChild);
+        return new Animal(map,positionOfChild,childEnergy, genotypeOfChild);
     }
 
     @Override
