@@ -238,6 +238,15 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         return result;
     }
 
+
+    public ArrayList<Vector2d> cloneGivenArraysList(ArrayList<Vector2d> given){
+        ArrayList<Vector2d> clone = new ArrayList<>(given.size());
+        for(Vector2d position : given){
+            clone.add(new Vector2d(position));
+        }
+        return clone;
+    }
+
     public boolean canPlantBePlaced(Vector2d position){
         return objectAt(position) == null;
     }
