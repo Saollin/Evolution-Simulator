@@ -125,6 +125,23 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         return true;
     }
 
+    public void removeDeadAnimals(){
+        for(Animal a:animalList){
+            if(a.isDead()){
+                removeAnimal(a);
+                a.removeObservers(this);
+            }
+        }
+    }
+
+    public void moveAllAnimals(){
+        for(Animal a:animalList){
+            a.rotate();
+            a.move(MoveDirection.FORWARD);
+        }
+    }
+
+
 
     @Override
     public Object objectAt(Vector2d position) {
