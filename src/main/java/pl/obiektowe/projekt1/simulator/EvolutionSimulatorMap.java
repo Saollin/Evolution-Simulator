@@ -80,7 +80,6 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
     public boolean place(IMapElement element) {
         if(element instanceof Animal){
             addAnimal((Animal) element);
-            ((Animal) element).addObservers(this);
         }
         if(element instanceof Plant){
             if(plants.get(element.getPosition()) == null){
@@ -127,7 +126,6 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         for(Animal a:animalList){
             if(a.isDead()){
                 removeAnimal(a);
-                a.removeObservers(this);
             }
         }
     }
@@ -169,6 +167,26 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         }
     }
 
+    public void reproduction(){
+        for(LinkedList<Animal> animalList : animals.values()){
+            if(animalList != null && animalList.size() >= 2){
+                if(animalList.size() > 2){
+                    animalList.sort((o1, o2) -> o1.getEnergy() - o2.getEnergy());
+                }
+                Animal firstParent = animalList.get(animalList.size()-1);
+                Animal secondParent = animalList.get(animalList.size()-2);
+                if (canCopulate(firstParent) && canCopulate(secondParent)) {
+                    Vector2d positionOfChild = randomPositionNextToOtherPosition(firstParent.getPosition());
+                    Animal child = firstParent.copulate(secondParent,positionOfChild);
+                    place(child);
+                }
+            }
+        }
+    }
+
+    private boolean canCopulate(Animal potentialParent){
+        return potentialParent.getEnergy() >= 0.5 * startEnergy;
+    }
 
     /**
      * This method returns empty Position next to other position.
