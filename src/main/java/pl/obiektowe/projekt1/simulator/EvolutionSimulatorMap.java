@@ -105,7 +105,7 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
             ((Animal) element).addObservers(this);
         }
         if (element instanceof Plant) {
-            if (plants.get(element.getPosition()) == null) {
+            if (canPlantBePlaced(element.getPosition())) {
                 plants.put(element.getPosition(), (Plant) element);
             } else {
                 return false;
