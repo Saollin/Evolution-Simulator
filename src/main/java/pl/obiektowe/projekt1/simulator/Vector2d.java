@@ -9,6 +9,12 @@ public class Vector2d {
         this.y = y;
     }
 
+    //constructor to clone Vector2d
+    public Vector2d(Vector2d other){
+        this.x = other.getX();
+        this.y = other.getY();
+    }
+
     boolean precedes(Vector2d other){
         return this.x <= other.x && this.y <= other.y;
     }
