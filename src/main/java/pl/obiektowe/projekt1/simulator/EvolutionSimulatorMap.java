@@ -1,6 +1,7 @@
 package pl.obiektowe.projekt1.simulator;
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap {
 
@@ -244,7 +245,7 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
     }
 
     public void spawnGrassIn(ArrayList<Vector2d> area){
-        ArrayList<Vector2d> positionsInJungle = cloneGivenArraysList(area);
+        CopyOnWriteArrayList<Vector2d> positionsInJungle = new CopyOnWriteArrayList<>(area);
         Random generator = new Random();
         while(positionsInJungle.size() > 0){
             Vector2d newPosition = positionsInJungle.get(generator.nextInt(positionsInJungle.size()));
@@ -256,15 +257,6 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
                 positionsInJungle.remove(newPosition);
             }
         }
-    }
-
-    public ArrayList<Vector2d> cloneGivenArraysList(ArrayList<Vector2d> given){
-
-        ArrayList<Vector2d> clone = new ArrayList<>(given.size());
-        for(Vector2d position : given){
-            clone.add(new Vector2d(position));
-        }
-        return clone;
     }
 
     public boolean canPlantBePlaced(Vector2d position){
