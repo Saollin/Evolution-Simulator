@@ -110,6 +110,21 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         return true;
     }
 
+    public boolean removeAnimal(Animal animal){
+        LinkedList<Animal> list = animals.get(animal.getPosition());
+        if(list == null)
+            throw new IllegalArgumentException("Animal on position:" + animal.getPosition() + "already not exist");
+        else if(list.size() == 0){
+            throw new IllegalArgumentException("Animal on position:" + animal.getPosition() + "already not exist");
+        }
+        else{
+            list.remove(animal);
+            if(list.size() == 0)
+                animals.remove(animal.getPosition());
+        }
+        return true;
+    }
+
 
     @Override
     public Object objectAt(Vector2d position) {
