@@ -256,6 +256,46 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         return objectAt(position) == null;
     }
 
+    /**
+     * This method is called only in the beginning of simulation and in most of cases only some times.
+     * The Jungle will be empty in large part for small number of Animals, so then loop while should be break fast.
+     * In case, when there would be over 80% of jungle occupied by animals, then we use other implementation choosing
+     * position to place, which guarantees success.
+     * @return if Animal was placed
+     */
+    public boolean placeAnimalInRandomFieldInJungle(){
+        Random generator = new Random();
+        int sizeOfJungle = jungleHeight * jungleWidth;
+        if(animals.size()/sizeOfJungle < 0.8){
+            int howMuchTime = 0;
+            while(howMuchTime < sizeOfJungle){
+                int newX = generator.nextInt(jungleWidth) + jungleLowerLeft.getX();
+                int newY = generator.nextInt(jungleHeight) + jungleLowerLeft.getY();
+                Vector2d position = new Vector2d(newX, newY);
+                if(animals.get(position) == null){
+                    place(new Animal(this, position, startEnergy));
+                    return true;
+                }
+                howMuchTime++;
+            }
+        }
+        else{
+            CopyOnWriteArrayList<Vector2d> positionsInJungle = new CopyOnWriteArrayList<>(jungle);
+            while (positionsInJungle.size() > 0) {
+                int newX = generator.nextInt(jungleWidth) + jungleLowerLeft.getX();
+                int newY = generator.nextInt(jungleHeight) + jungleLowerLeft.getY();
+                Vector2d position = new Vector2d(newX, newY);
+                if (animals.get(position) == null) {
+                    place(new Animal(this, position, startEnergy));
+                    return true;
+                } else {
+                    positionsInJungle.remove(position);
+                }
+            }
+        }
+        return false;
+    }
+
     @Override
     public Object objectAt(Vector2d position) {
         Object result;
