@@ -239,15 +239,15 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
     }
 
     public void spawnGrassIn(ArrayList<Vector2d> area) {
-        CopyOnWriteArrayList<Vector2d> positionsInJungle = new CopyOnWriteArrayList<>(area);
+        CopyOnWriteArrayList<Vector2d> positions = new CopyOnWriteArrayList<>(area);
         Random generator = new Random();
-        while (positionsInJungle.size() > 0) {
-            Vector2d newPosition = positionsInJungle.get(generator.nextInt(positionsInJungle.size()));
+        while (positions.size() > 0) {
+            Vector2d newPosition = positions.get(generator.nextInt(positions.size()));
             if (canPlantBePlaced(newPosition)) {
                 place(new Plant(newPosition));
                 break;
             } else {
-                positionsInJungle.remove(newPosition);
+                positions.remove(newPosition);
             }
         }
     }
