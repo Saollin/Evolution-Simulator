@@ -1,12 +1,12 @@
 package pl.obiektowe.projekt1.simulator.Classes;
 
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.*;
 
 public class StatisticOfDay {
     private int numberOfAnimal;
     private int numberOfPlants;
     private HashMap<Integer, LinkedList<Genotype>> dominantGenotypes;
+    private int numberOfDominantGenotypes;
     private double averageEnergyOfLivingAnimals;
     private double averageLifetimeOfDeadAnimals;
     private double averageNumberChildOfLivingAnimals;
@@ -19,6 +19,9 @@ public class StatisticOfDay {
         this.averageEnergyOfLivingAnimals = averageEnergyOfLivingAnimals;
         this.averageLifetimeOfDeadAnimals = averageLifetimeOfDeadAnimals;
         this.averageNumberChildOfLivingAnimals = averageNumberChildOfLivingAnimals;
+        ArrayList<Integer> integers = new ArrayList<>(dominantGenotypes.keySet());
+        Collections.sort(integers, Collections.reverseOrder());
+        numberOfDominantGenotypes = integers.get(0).intValue();
     }
 
     public int getNumberOfAnimal() {
