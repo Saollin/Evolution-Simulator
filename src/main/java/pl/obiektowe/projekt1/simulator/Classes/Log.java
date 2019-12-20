@@ -9,6 +9,8 @@ import java.util.LinkedList;
 public class Log implements IStatisticObserver {
     public LinkedList<StatisticOfDay> statics;
 
+    private LinkedList<Animal> deadAnimals = new LinkedList<>();
+
     @Override
     public void makeStatisticOfDay(LinkedList<Animal> animals, int numberOfPlants, LinkedList<Animal> deadAnimals) {
         int numberOfAnimal = animals.size();
@@ -56,7 +58,8 @@ public class Log implements IStatisticObserver {
         return sumOfEnergy / animals.size();
     }
 
-    private double countAverageLifetimeOfDeadAnimals(LinkedList<Animal> deadAnimals) {
+    private double countAverageLifetimeOfDeadAnimals(LinkedList<Animal> newDeadAnimals) {
+        deadAnimals.addAll(newDeadAnimals);
         double sumOfLifetime = 0;
         for (Animal animal : deadAnimals) {
             sumOfLifetime += animal.getLifetime();
