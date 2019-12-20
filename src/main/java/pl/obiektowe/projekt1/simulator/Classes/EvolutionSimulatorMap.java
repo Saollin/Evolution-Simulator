@@ -170,6 +170,7 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
             a.rotate();
             a.move(MoveDirection.FORWARD);
             a.changeEnergy(moveEnergy);
+            a.increaseLifeTime();
         }
     }
 
