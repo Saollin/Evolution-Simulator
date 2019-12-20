@@ -4,6 +4,7 @@ import pl.obiektowe.projekt1.simulator.Enum.MapDirection;
 import pl.obiektowe.projekt1.simulator.Enum.MoveDirection;
 import pl.obiektowe.projekt1.simulator.Interfaces.IMapElement;
 import pl.obiektowe.projekt1.simulator.Interfaces.IPositionChangeObserver;
+import pl.obiektowe.projekt1.simulator.Interfaces.IStatisticObserver;
 import pl.obiektowe.projekt1.simulator.Interfaces.IWorldMap;
 
 import java.util.*;
@@ -33,6 +34,9 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
     private Map<Vector2d, Plant> plants = new HashMap<>();
     private Map<Vector2d, LinkedList<Animal>> animals = new HashMap<>();
     private LinkedList<Animal> animalList = new LinkedList<>();
+
+    //statistic observers
+    private ArrayList<IStatisticObserver> statisticObservers = new ArrayList<>();
 
     //static arrayList to generate random Positions in Jungle or Steppe
     private static ArrayList<Vector2d> jungle;
@@ -134,6 +138,7 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         return true;
     }
 
+    //call this method as final in the day
     public boolean removeAnimal(Animal animal, Vector2d position) {
         LinkedList<Animal> list = animals.get(position);
         if (list == null)
@@ -148,13 +153,16 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         return true;
     }
 
-    public void removeDeadAnimals() {
+    public LinkedList<Animal> removeDeadAnimals() {
+        LinkedList<Animal> deadAnimals = new LinkedList<>();
         for (Animal a : animalList) {
             if (a.isDead()) {
                 removeAnimal(a, a.getPosition());
                 a.removeObservers(this);
+                deadAnimals.add(a);
             }
         }
+        return deadAnimals;
     }
 
     public void moveAllAnimals() {
@@ -302,6 +310,28 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         return false;
     }
 
+    public void oneDay(){
+        moveAllAnimals();
+        eating();
+        reproduction();
+        spawnGrassInSteppeAndJungle();
+        LinkedList<Animal> deadAnimals = removeDeadAnimals();
+        notifyObservers(animalList, plants.size(), deadAnimals);
+    }
+
+    public void addObservers(IStatisticObserver observer){
+        statisticObservers.add(observer);
+    }
+
+    public void removeObservers(IStatisticObserver observer){
+        statisticObservers.remove(observer);
+    }
+
+    public void notifyObservers(LinkedList<Animal> animals, int numberOfPlants, LinkedList<Animal> deadAnimals){
+        for(IStatisticObserver observer:statisticObservers){
+            observer.makeStatisticOfDay(animalList, numberOfPlants, deadAnimals);
+        }
+    }
     @Override
     public Object objectAt(Vector2d position) {
         Object result;
