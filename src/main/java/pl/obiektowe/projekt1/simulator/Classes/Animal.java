@@ -16,6 +16,7 @@ public class Animal implements IMapElement {
 
     private int energy;
     private int lifetime;
+    private int numberOfChild;
     private ArrayList<IPositionChangeObserver> observers = new ArrayList<>();
     private Genotype genotypeOfAnimal;
 
@@ -26,6 +27,7 @@ public class Animal implements IMapElement {
         this.directionOfAnimal = MapDirection.NORTH;
         this.genotypeOfAnimal = new Genotype();
         this.lifetime = 0;
+        this.numberOfChild = 0;
     }
 
     public Animal(IWorldMap map, Vector2d startPosition, int startEnergy, Genotype genotype){
@@ -104,8 +106,16 @@ public class Animal implements IMapElement {
         return energy;
     }
 
-    public void increaseLifeTime(){
+    public void increaseLifetime(){
         lifetime++;
+    }
+
+    public void increaseNumberOfChild(){
+        numberOfChild++;
+    }
+
+    public int getNumberOfChild() {
+        return numberOfChild;
     }
 
     public int getLifetime() {

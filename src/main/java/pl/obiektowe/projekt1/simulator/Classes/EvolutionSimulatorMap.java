@@ -170,7 +170,7 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
             a.rotate();
             a.move(MoveDirection.FORWARD);
             a.changeEnergy(moveEnergy);
-            a.increaseLifeTime();
+            a.increaseLifetime();
         }
     }
 
@@ -214,6 +214,8 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
                     Vector2d positionOfChild = randomPositionNextToOtherPosition(firstParent.getPosition());
                     Animal child = firstParent.copulate(secondParent, positionOfChild);
                     place(child);
+                    firstParent.increaseNumberOfChild();
+                    secondParent.increaseNumberOfChild();
                 }
             }
         }
