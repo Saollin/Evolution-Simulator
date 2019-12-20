@@ -1,4 +1,4 @@
-package pl.obiektowe.projekt1.simulator;
+package pl.obiektowe.projekt1.simulator.Classes;
 
 public class Vector2d {
     private final int x;
@@ -7,6 +7,12 @@ public class Vector2d {
     public Vector2d(int x, int y){
         this.x = x;
         this.y = y;
+    }
+
+    //constructor to clone Vector2d
+    public Vector2d(Vector2d other){
+        this.x = other.getX();
+        this.y = other.getY();
     }
 
     boolean precedes(Vector2d other){

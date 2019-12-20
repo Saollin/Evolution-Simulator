@@ -1,4 +1,4 @@
-package pl.obiektowe.projekt1.simulator;
+package pl.obiektowe.projekt1.simulator.Classes;
 
 import java.util.Arrays;
 import java.util.Random;

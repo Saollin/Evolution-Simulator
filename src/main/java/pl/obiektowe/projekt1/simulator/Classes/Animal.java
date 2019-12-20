@@ -1,13 +1,22 @@
-package pl.obiektowe.projekt1.simulator;
+package pl.obiektowe.projekt1.simulator.Classes;
+
+import pl.obiektowe.projekt1.simulator.Enum.MapDirection;
+import pl.obiektowe.projekt1.simulator.Enum.MoveDirection;
+import pl.obiektowe.projekt1.simulator.Interfaces.IMapElement;
+import pl.obiektowe.projekt1.simulator.Interfaces.IPositionChangeObserver;
+import pl.obiektowe.projekt1.simulator.Interfaces.IWorldMap;
 
 import java.util.ArrayList;
 
-public class Animal implements IMapElement{
+public class Animal implements IMapElement {
 
     private MapDirection directionOfAnimal;
     private IWorldMap map;
     private Vector2d position;
+
     private int energy;
+    private int lifetime;
+    private int numberOfChild;
     private ArrayList<IPositionChangeObserver> observers = new ArrayList<>();
     private Genotype genotypeOfAnimal;
 
@@ -17,6 +26,8 @@ public class Animal implements IMapElement{
         this.energy = startEnergy;
         this.directionOfAnimal = MapDirection.valueOfDirectionNumber(this.genotypeOfAnimal.randomGen());
         this.genotypeOfAnimal = new Genotype();
+        this.lifetime = 0;
+        this.numberOfChild = 0;
     }
 
     public Animal(IWorldMap map, Vector2d startPosition, int startEnergy, Genotype genotype){
@@ -40,9 +51,9 @@ public class Animal implements IMapElement{
         observers.remove(observer);
     }
 
-    public void notifyObservers(Vector2d oldPosition, Vector2d newPosition){
+    public void notifyObservers(Vector2d oldPosition, Vector2d newPosition, Object a){
         for(IPositionChangeObserver observer:observers){
-            observer.positionChanged(oldPosition,newPosition);
+            observer.positionChanged(oldPosition,newPosition, a);
         }
     }
 
@@ -58,33 +69,28 @@ public class Animal implements IMapElement{
             case FORWARD:
                 unitVector = this.directionOfAnimal.toUnitVector();
                 oldPosition = this.getPosition();
-                newPosition = position.add(unitVector);
-                if (map.canMoveTo(newPosition)) {
-                    this.position = newPosition;
-                    this.notifyObservers(oldPosition,newPosition);
-                }
+                newPosition = map.countRightPositionOnTheMap(position.add(unitVector));
+                this.position = newPosition;
+                this.notifyObservers(oldPosition, newPosition, this);
                 break;
             case BACKWARD:
                 unitVector = this.directionOfAnimal.toUnitVector();
                 oldPosition = this.getPosition();
-                newPosition = position.subtract(unitVector);
-                if (map.canMoveTo(newPosition)) {
-                    this.position = newPosition;
-                    this.notifyObservers(oldPosition,newPosition);
-                }
+                newPosition = map.countRightPositionOnTheMap(position.subtract(unitVector));
+                this.position = newPosition;
+                this.notifyObservers(oldPosition, newPosition, this);
                 break;
             default:
                 return;
         }
     }
 
-    public void copulate(Animal secondParent){
+    public Animal copulate(Animal secondParent, Vector2d positionOfChild){
         int childEnergy = (int)(0.25 * this.energy) + (int)(0.25 * secondParent.energy);
         this.changeEnergy((int)-(0.25 * this.energy));
         secondParent.changeEnergy((int)-(0.25 * secondParent.energy));
-        Vector2d positionOfChild;
         Genotype genotypeOfChild = this.genotypeOfAnimal.createNewGenotypeWithSecondParent(secondParent.getGenotypeOfAnimal());
-        Animal child = new Animal(map,positionOfChild,childEnergy, genotypeOfChild);
+        return new Animal(map,positionOfChild,childEnergy, genotypeOfChild);
     }
 
     @Override
@@ -96,4 +102,23 @@ public class Animal implements IMapElement{
         return genotypeOfAnimal;
     }
 
+    public int getEnergy() {
+        return energy;
+    }
+
+    public void increaseLifetime(){
+        lifetime++;
+    }
+
+    public void increaseNumberOfChild(){
+        numberOfChild++;
+    }
+
+    public int getNumberOfChild() {
+        return numberOfChild;
+    }
+
+    public int getLifetime() {
+        return lifetime;
+    }
 }

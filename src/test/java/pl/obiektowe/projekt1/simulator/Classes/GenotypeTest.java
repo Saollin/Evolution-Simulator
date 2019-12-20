@@ -1,10 +1,9 @@
-package pl.obiektowe.projekt1.simulator;
+package pl.obiektowe.projekt1.simulator.Classes;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
+import pl.obiektowe.projekt1.simulator.Classes.Genotype;
 
-import java.sql.Array;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
