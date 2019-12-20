@@ -12,7 +12,8 @@ public class StatisticOfDay {
     private double averageNumberChildOfLivingAnimals;
 
     public StatisticOfDay(int numberOfAnimal, int numberOfPlants, HashMap<Integer, LinkedList<Genotype>> dominantGenotypes,
-            double averageEnergyOfLivingAnimals, double averageLifetimeOfDeadAnimals, double averageNumberChildOfLivingAnimals) {
+            double averageEnergyOfLivingAnimals, double averageLifetimeOfDeadAnimals, double averageNumberChildOfLivingAnimals,
+            int numberOfDominantGenotypes) {
         this.numberOfAnimal = numberOfAnimal;
         this.numberOfPlants = numberOfPlants;
         this.dominantGenotypes = dominantGenotypes;
@@ -21,7 +22,7 @@ public class StatisticOfDay {
         this.averageNumberChildOfLivingAnimals = averageNumberChildOfLivingAnimals;
         ArrayList<Integer> integers = new ArrayList<>(dominantGenotypes.keySet());
         Collections.sort(integers, Collections.reverseOrder());
-        numberOfDominantGenotypes = integers.get(0).intValue();
+        this.numberOfDominantGenotypes = numberOfDominantGenotypes;
     }
 
     public int getNumberOfAnimal() {
@@ -47,4 +48,9 @@ public class StatisticOfDay {
     public double getAverageNumberChildOfLivingAnimals() {
         return averageNumberChildOfLivingAnimals;
     }
+
+    public int getNumberOfDominantGenotypes() {
+        return numberOfDominantGenotypes;
+    }
+
 }
