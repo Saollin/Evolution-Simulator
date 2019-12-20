@@ -1,8 +1,14 @@
-package pl.obiektowe.projekt1.simulator;
+package pl.obiektowe.projekt1.simulator.Classes;
+
+import pl.obiektowe.projekt1.simulator.Enum.MapDirection;
+import pl.obiektowe.projekt1.simulator.Enum.MoveDirection;
+import pl.obiektowe.projekt1.simulator.Interfaces.IMapElement;
+import pl.obiektowe.projekt1.simulator.Interfaces.IPositionChangeObserver;
+import pl.obiektowe.projekt1.simulator.Interfaces.IWorldMap;
 
 import java.util.ArrayList;
 
-public class Animal implements IMapElement{
+public class Animal implements IMapElement {
 
     private MapDirection directionOfAnimal;
     private IWorldMap map;

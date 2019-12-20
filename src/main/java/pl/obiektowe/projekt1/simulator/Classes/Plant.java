@@ -1,4 +1,6 @@
-package pl.obiektowe.projekt1.simulator;
+package pl.obiektowe.projekt1.simulator.Classes;
+
+import pl.obiektowe.projekt1.simulator.Interfaces.IMapElement;
 
 public class Plant implements IMapElement {
 

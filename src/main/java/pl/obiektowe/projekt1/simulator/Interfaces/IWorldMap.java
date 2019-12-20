@@ -1,4 +1,6 @@
-package pl.obiektowe.projekt1.simulator;
+package pl.obiektowe.projekt1.simulator.Interfaces;
+
+import pl.obiektowe.projekt1.simulator.Classes.Vector2d;
 
 public interface IWorldMap {
 

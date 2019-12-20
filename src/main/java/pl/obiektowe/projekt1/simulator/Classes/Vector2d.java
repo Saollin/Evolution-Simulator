@@ -1,4 +1,4 @@
-package pl.obiektowe.projekt1.simulator;
+package pl.obiektowe.projekt1.simulator.Classes;
 
 public class Vector2d {
     private final int x;

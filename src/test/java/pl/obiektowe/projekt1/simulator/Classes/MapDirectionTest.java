@@ -1,8 +1,8 @@
-package pl.obiektowe.projekt1.simulator;
+package pl.obiektowe.projekt1.simulator.Classes;
 
 import org.junit.jupiter.api.Test;
-
-import java.util.Map;
+import pl.obiektowe.projekt1.simulator.Classes.Vector2d;
+import pl.obiektowe.projekt1.simulator.Enum.MapDirection;
 
 import static org.junit.jupiter.api.Assertions.*;
 

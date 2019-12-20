@@ -1,4 +1,6 @@
-package pl.obiektowe.projekt1.simulator;
+package pl.obiektowe.projekt1.simulator.Enum;
+
+import pl.obiektowe.projekt1.simulator.Classes.Vector2d;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +25,7 @@ public enum MapDirection {
         return DIRECTION_MAP.get(directionNumber);
     }
 
-    Vector2d toUnitVector(){
+    public Vector2d toUnitVector(){
         switch(this){
             case NORTH: return new Vector2d(0,1);
             case NORTH_EAST: return new Vector2d(1,1);

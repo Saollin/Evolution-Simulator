@@ -1,6 +1,10 @@
-package pl.obiektowe.projekt1.simulator;
+package pl.obiektowe.projekt1.simulator.Classes;
 
 import org.junit.jupiter.api.Test;
+import pl.obiektowe.projekt1.simulator.Classes.Animal;
+import pl.obiektowe.projekt1.simulator.Classes.EvolutionSimulatorMap;
+import pl.obiektowe.projekt1.simulator.Classes.Plant;
+import pl.obiektowe.projekt1.simulator.Classes.Vector2d;
 
 import java.time.Duration;
 
