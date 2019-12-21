@@ -107,6 +107,10 @@ public class StatisticPanel extends JPanel implements ActionListener {
         }
     }
 
+    public void setLog(Log log){
+        this.log = log;
+    }
+
     public void updateStatstics(StatisticOfDay statistic){
         numberOfAnimal.setText(statistic.getNumberOfAnimal() + "");
         numberOfPlants.setText(statistic.getNumberOfPlants() + "");

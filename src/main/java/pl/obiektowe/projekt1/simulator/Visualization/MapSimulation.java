@@ -46,7 +46,7 @@ public class MapSimulation implements ActionListener {
         plotRenderPanel = new PlotRenderPanel(map, this);
         plotRenderPanel.setSize(1, 1);
 
-        statisticPanel = new StatisticPanel(log);
+        statisticPanel = new StatisticPanel();
         statisticPanel.setSize(1,1);
 
         frame.add(renderPanel);
