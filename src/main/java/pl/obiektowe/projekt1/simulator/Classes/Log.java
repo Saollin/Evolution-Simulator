@@ -20,7 +20,7 @@ public class Log implements IStatisticObserver {
         double averageLifetime = countAverageLifetimeOfDeadAnimals(deadAnimals);
         double averageChildNumber = countAverageNumberChildOfLivingAnimals(animals);
         int numberOfDominantGenotypes = countNumberOfDominantGenotypes(dominantGenotype);
-        StatisticOfDay oneDay = new StatisticOfDay(animals.size(), numberOfPlants, dominantGenotype,
+        StatisticOfDay oneDay = new StatisticOfDay(numberOfAnimal, numberOfPlants, dominantGenotype,
                 averageEnergy, averageLifetime, averageChildNumber, numberOfDominantGenotypes);
         statics.add(oneDay);
     }
