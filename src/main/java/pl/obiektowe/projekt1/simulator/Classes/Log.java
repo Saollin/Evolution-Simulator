@@ -1,7 +1,10 @@
 package pl.obiektowe.projekt1.simulator.Classes;
 
+import org.json.simple.JSONObject;
 import pl.obiektowe.projekt1.simulator.Interfaces.IStatisticObserver;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 public class Log implements IStatisticObserver {
@@ -20,6 +23,19 @@ public class Log implements IStatisticObserver {
         StatisticOfDay oneDay = new StatisticOfDay(animals.size(), numberOfPlants, dominantGenotype,
                 averageEnergy, averageLifetime, averageChildNumber, numberOfDominantGenotypes);
         statics.add(oneDay);
+    }
+
+    public void saveAverageStaticAfterGivenNumberOfDay(int numberOfDays) throws IOException{
+        StatisticOfDay averageStatistic = countAverageStatisticAfterGivenNumberOfDay(numberOfDays);
+        JSONObject jsonStatistic = averageStatistic.toJSONObject();
+        try (FileWriter file = new FileWriter("statistic.json")) {
+
+            file.write(jsonStatistic.toJSONString());
+            file.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private HashMap<Integer, LinkedList<Genotype>> countDominantGenotype(LinkedList<Genotype> genotypes) {
