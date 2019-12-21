@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class Log implements IStatisticObserver {
-    public LinkedList<StatisticOfDay> statics;
+    public LinkedList<StatisticOfDay> statics = new LinkedList<>();
 
     private LinkedList<Animal> deadAnimals = new LinkedList<>();
 

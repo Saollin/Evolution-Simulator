@@ -82,6 +82,8 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
                 steppe.remove(position);
             }
         }
+
+        addObservers(new Log());
     }
 
     public Vector2d countRightPositionOnTheMap(Vector2d position) {
