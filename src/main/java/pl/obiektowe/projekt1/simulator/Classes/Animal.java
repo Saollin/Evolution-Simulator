@@ -27,6 +27,7 @@ public class Animal implements IMapElement {
         this.energy = startEnergy;
         this.genotypeOfAnimal = new Genotype();
         this.directionOfAnimal = MapDirection.valueOfDirectionNumber(this.genotypeOfAnimal.randomGen());
+        this.directionOfAnimal = MapDirection.NORTH;
         this.lifetime = 0;
         this.numberOfChild = 0;
     }
@@ -92,10 +93,6 @@ public class Animal implements IMapElement {
         secondParent.changeEnergy((int)-(0.25 * secondParent.energy));
         Genotype genotypeOfChild = this.genotypeOfAnimal.createNewGenotypeWithSecondParent(secondParent.getGenotypeOfAnimal());
         return new Animal(map,positionOfChild,childEnergy, genotypeOfChild);
-    }
-
-    public Color toColor() {
-        return new Color(55, 31, 27);
     }
 
     @Override

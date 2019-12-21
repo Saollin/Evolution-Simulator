@@ -29,11 +29,11 @@ public class RenderPanel extends JPanel {
         int heightScale = height / map.getHeight();
 
         //draw Steppe
-        g.setColor(new Color(170, 224, 103));
+        g.setColor(new Color(148, 171, 48));
         g.fillRect(0, 0, width, height);
 
         //draw Jungle
-        g.setColor(new Color(0, 160, 7));
+        g.setColor(new Color(16, 70, 19));
         g.fillRect(map.getJungleLowerLeft().getX() * widthScale,
                 map.getJungleLowerLeft().getY() * heightScale,
                 map.getJungleWidth() * widthScale,
@@ -49,7 +49,7 @@ public class RenderPanel extends JPanel {
         }
         //draw Animals
         for (Animal a : map.getAnimalList()) {
-            g.setColor(a.toColor());
+            g.setColor(map.colorForAnimal(a));
             int y = map.countRightPositionOnTheMap(a.getPosition()).getY() * heightScale;
             int x = map.countRightPositionOnTheMap(a.getPosition()).getX() * widthScale;
             g.fillOval(x, y, widthScale, heightScale);

@@ -17,7 +17,7 @@ public class Plant implements IMapElement {
         return this.position;
     }
 
-    public Color toColor() {
-        return new Color(67, 222, 31);
+    public Color toColor(){
+        return new Color(63, 179, 42);
     }
 }
