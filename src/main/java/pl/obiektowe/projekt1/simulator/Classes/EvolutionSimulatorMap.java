@@ -361,6 +361,10 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         return new Color(75, 0, 20);
     }
 
+    public boolean areDeadAllAnimals(){
+        return animalList.size()  == 0;
+    }
+
     public Map<Vector2d, Plant> getPlants() {
         return plants;
     }

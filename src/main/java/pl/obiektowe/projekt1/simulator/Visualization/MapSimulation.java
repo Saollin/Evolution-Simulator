@@ -1,6 +1,5 @@
 package pl.obiektowe.projekt1.simulator.Visualization;
 
-import pl.obiektowe.projekt1.simulator.Classes.EvolutionSimulator;
 import pl.obiektowe.projekt1.simulator.Classes.EvolutionSimulatorMap;
 
 import javax.swing.*;
@@ -15,7 +14,6 @@ public class MapSimulation implements ActionListener {
     public final int delay;
     public EvolutionSimulatorMap map;
     public int startNumOfAnimals;
-    public int grassSpawnedInEachDay;
 
     //simulation necessary:
     public JFrame frame;
@@ -33,7 +31,7 @@ public class MapSimulation implements ActionListener {
         timer = new Timer(delay, this);
 
         frame = new JFrame("Evolution Simulator");
-        frame.setSize(1000, 1000);
+        frame.setSize(700, 1000);
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -55,7 +53,6 @@ public class MapSimulation implements ActionListener {
             map.placeAnimalInRandomFieldInJungle();
         }
         timer.start();
-
     }
 
     @Override
@@ -63,9 +60,10 @@ public class MapSimulation implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         plotRenderPanel.repaint();
         renderPanel.repaint();
-
         map.oneDay();
-
+        if(map.areDeadAllAnimals()) {
+            timer.stop();
+        }
     }
 
 }

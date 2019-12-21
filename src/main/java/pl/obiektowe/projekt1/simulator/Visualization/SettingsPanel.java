@@ -151,7 +151,15 @@ public class SettingsPanel extends JPanel implements ActionListener {
         public void actionPerformed(ActionEvent e) {
 
 
-            EvolutionSimulatorMap map = new EvolutionSimulatorMap(
+            EvolutionSimulatorMap map1 = new EvolutionSimulatorMap(
+                    Integer.parseInt(mapWidth.getText()),
+                    Integer.parseInt(mapHeight.getText()),
+                    Integer.parseInt(jungleRatio.getText()) / 100.0,
+                    Integer.parseInt(animalsStartEnergy.getText()),
+                    Integer.parseInt(dayEnergyCost.getText()),
+                    Integer.parseInt(grassEatingEnergyProfit.getText())
+            );
+            EvolutionSimulatorMap map2 = new EvolutionSimulatorMap(
                     Integer.parseInt(mapWidth.getText()),
                     Integer.parseInt(mapHeight.getText()),
                     Integer.parseInt(jungleRatio.getText()) / 100.0,
@@ -160,9 +168,13 @@ public class SettingsPanel extends JPanel implements ActionListener {
                     Integer.parseInt(grassEatingEnergyProfit.getText())
             );
             MapSimulation simulation = new MapSimulation(
-                    map, Integer.parseInt(delay.getText()),
+                    map1, Integer.parseInt(delay.getText()),
                     Integer.parseInt(numOfSpawnedAnimals.getText()));
+            simulation.frame.setLocation(0,0);
             simulation.startSimulation();
+            MapSimulation simulation2 = new MapSimulation(map2, Integer.parseInt(delay.getText()),Integer.parseInt(numOfSpawnedAnimals.getText()));
+            simulation2.frame.setLocation(700,0);
+            simulation2.startSimulation();
 
         }
     }
