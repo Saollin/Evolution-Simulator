@@ -20,6 +20,7 @@ public class SettingsPanel extends JPanel implements ActionListener {
         private JTextField mapHeight;
         private JTextField jungleRatio;
         private JTextField dayEnergyCost;
+        private JTextField grassSpawnedInEachDay;
         //Labels to identify the fields
         private JLabel delayLabel;
         private JLabel animalsStartEnergyLabel;
@@ -29,6 +30,7 @@ public class SettingsPanel extends JPanel implements ActionListener {
         private JLabel mapHeightLabel;
         private JLabel jungleRatioLabel;
         private JLabel dayEnergyCostLabel;
+        private JLabel grassSpawnedInEachDayLabel;
         //button
         private JButton startButton;
 
@@ -36,7 +38,7 @@ public class SettingsPanel extends JPanel implements ActionListener {
             setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
             setPreferredSize(new Dimension(WIDTH, HEIGHT));
 
-            startButton = new JButton("Start");
+            startButton = new JButton("Start Simulation");
             startButton.addActionListener(this);
 
             //LABELS
@@ -106,21 +108,21 @@ public class SettingsPanel extends JPanel implements ActionListener {
 
             l1.add(delayLabel);
             l2.add(animalsStartEnergyLabel);
-            l3.add(numOfSpawnedAnimalsLabel);
-            l4.add(grassEatingEnergyProfitLabel);
-            l5.add(mapHeightLabel);
-            l6.add(mapWidthLabel);
-            l7.add(jungleRatioLabel);
-            l8.add(dayEnergyCostLabel);
+            l4.add(numOfSpawnedAnimalsLabel);
+            l5.add(grassEatingEnergyProfitLabel);
+            l6.add(mapHeightLabel);
+            l7.add(mapWidthLabel);
+            l8.add(jungleRatioLabel);
+            l10.add(dayEnergyCostLabel);
 
             l1.add(delay);
             l2.add(animalsStartEnergy);
-            l3.add(numOfSpawnedAnimals);
-            l4.add(grassEatingEnergyProfit);
-            l5.add(mapHeight);
-            l6.add(mapWidth);
-            l7.add(jungleRatio);
-            l8.add(dayEnergyCost);
+            l4.add(numOfSpawnedAnimals);
+            l5.add(grassEatingEnergyProfit);
+            l6.add(mapHeight);
+            l7.add(mapWidth);
+            l8.add(jungleRatio);
+            l10.add(dayEnergyCost);
 
             JPanel buttonPanel = new JPanel();
             buttonPanel.add(startButton);

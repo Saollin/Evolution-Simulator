@@ -15,14 +15,13 @@ public class MapSimulation implements ActionListener {
     public final int delay;
     public EvolutionSimulatorMap map;
     public int startNumOfAnimals;
+    public int grassSpawnedInEachDay;
 
     //simulation necessary:
     public JFrame frame;
     public RenderPanel renderPanel;
     public PlotRenderPanel plotRenderPanel;
-    public JPanel buttonStopPanel;
-    public Timer timer1;
-    public Timer timer2;
+    public Timer timer;
 
 
     public MapSimulation(EvolutionSimulatorMap map, int delay, int startNumOfAnimals) {
@@ -31,7 +30,7 @@ public class MapSimulation implements ActionListener {
         this.delay = delay;
         this.startNumOfAnimals = startNumOfAnimals;
 
-        timer1 = new Timer(delay, this);
+        timer = new Timer(delay, this);
 
         frame = new JFrame("Evolution Simulator");
         frame.setSize(1000, 1000);
@@ -55,7 +54,7 @@ public class MapSimulation implements ActionListener {
         for (int i = 0; i < startNumOfAnimals; i++) {
             map.placeAnimalInRandomFieldInJungle();
         }
-        timer1.start();
+        timer.start();
 
     }
 
@@ -64,7 +63,9 @@ public class MapSimulation implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         plotRenderPanel.repaint();
         renderPanel.repaint();
+
         map.oneDay();
+
     }
 
 }

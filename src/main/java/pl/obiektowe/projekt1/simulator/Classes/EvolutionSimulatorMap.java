@@ -346,6 +346,21 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         return result;
     }
 
+    public Color colorForAnimal(Animal animal) {
+        if (animal.getEnergy() == 0) return new Color(222, 221, 224);
+        if (animal.getEnergy() < 0.2 * startEnergy) return new Color(255, 157, 169, 255);
+        if (animal.getEnergy() < 0.4 * startEnergy) return new Color(255, 110, 124);
+        if (animal.getEnergy() < 0.6 * startEnergy) return new Color(255, 0, 30, 255);
+        if (animal.getEnergy() < 0.8 * startEnergy) return new Color(226, 0, 32);
+        if (animal.getEnergy() < startEnergy) return new Color(205, 0, 32);
+        if (animal.getEnergy() < 2 * startEnergy) return new Color(179, 0, 31);
+        if (animal.getEnergy() < 4 * startEnergy) return new Color(153, 0, 30);
+        if (animal.getEnergy() < 6 * startEnergy) return new Color(131, 0, 28);
+        if (animal.getEnergy() < 8 * startEnergy) return new Color(112, 0, 28);
+        if (animal.getEnergy() < 10 * startEnergy) return new Color(87, 0, 22);
+        return new Color(75, 0, 20);
+    }
+
     public Map<Vector2d, Plant> getPlants() {
         return plants;
     }
