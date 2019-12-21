@@ -6,6 +6,7 @@ import pl.obiektowe.projekt1.simulator.Interfaces.IMapElement;
 import pl.obiektowe.projekt1.simulator.Interfaces.IPositionChangeObserver;
 import pl.obiektowe.projekt1.simulator.Interfaces.IWorldMap;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Animal implements IMapElement {
@@ -24,8 +25,8 @@ public class Animal implements IMapElement {
         this.map = map;
         this.position = startPosition;
         this.energy = startEnergy;
-        this.directionOfAnimal = MapDirection.valueOfDirectionNumber(this.genotypeOfAnimal.randomGen());
         this.genotypeOfAnimal = new Genotype();
+        this.directionOfAnimal = MapDirection.valueOfDirectionNumber(this.genotypeOfAnimal.randomGen());
         this.lifetime = 0;
         this.numberOfChild = 0;
     }
@@ -91,6 +92,10 @@ public class Animal implements IMapElement {
         secondParent.changeEnergy((int)-(0.25 * secondParent.energy));
         Genotype genotypeOfChild = this.genotypeOfAnimal.createNewGenotypeWithSecondParent(secondParent.getGenotypeOfAnimal());
         return new Animal(map,positionOfChild,childEnergy, genotypeOfChild);
+    }
+
+    public Color toColor() {
+        return new Color(55, 31, 27);
     }
 
     @Override

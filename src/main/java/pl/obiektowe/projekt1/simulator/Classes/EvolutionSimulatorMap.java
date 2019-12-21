@@ -181,29 +181,34 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
 
     public void eating() {
         LinkedList<Plant> eatedPlants = new LinkedList<>();
-
-        for (Plant plant : plants.values()) {
-            LinkedList<Animal> hungryAnimals = animals.get(plant.getPosition());
-            if (hungryAnimals != null && hungryAnimals.size() > 0) {
-                LinkedList<Animal> theStrongestOnes = new LinkedList<>();
-                theStrongestOnes.add(hungryAnimals.get(0));
-                for (int i = 1; i < hungryAnimals.size(); i++) {
-                    if (theStrongestOnes.getFirst().getEnergy() < hungryAnimals.get(i).getEnergy()) {
-                        theStrongestOnes.clear();
-                        theStrongestOnes.add(hungryAnimals.get(i));
-                    } else if (theStrongestOnes.getFirst().getEnergy() == hungryAnimals.get(i).getEnergy()) {
-                        theStrongestOnes.add(hungryAnimals.get(i));
+        ArrayList<Vector2d> positionsOfAnimals = new ArrayList<>(animals.keySet());
+        LinkedList<Animal> hungryAnimals;
+        for(Vector2d position : positionsOfAnimals){
+            hungryAnimals = animals.get(position);
+            if(plants.get(position)!=null){
+                if(hungryAnimals.size() == 1){
+                    hungryAnimals.get(0).changeEnergy(plantEnergy);
+                }
+                else if (hungryAnimals.size() > 1){
+                    LinkedList<Animal> theStrongestOnes = new LinkedList<>();
+                    theStrongestOnes.add(hungryAnimals.get(0));
+                    for (int i = 1; i < hungryAnimals.size(); i++) {
+                        if (theStrongestOnes.getFirst().getEnergy() < hungryAnimals.get(i).getEnergy()) {
+                            theStrongestOnes.clear();
+                            theStrongestOnes.add(hungryAnimals.get(i));
+                        } else if (theStrongestOnes.getFirst().getEnergy() == hungryAnimals.get(i).getEnergy()) {
+                            theStrongestOnes.add(hungryAnimals.get(i));
+                        }
+                    }
+                    for (Animal animal : theStrongestOnes) {
+                        animal.changeEnergy(plantEnergy / theStrongestOnes.size());
                     }
                 }
-                for (Animal animal : theStrongestOnes) {
-                    animal.changeEnergy(plantEnergy / theStrongestOnes.size());
-                }
-                eatedPlants.add(plant);
+                eatedPlants.add(plants.get(position));
             }
         }
-
         for (Plant p : eatedPlants) {
-            plants.remove(p);
+            plants.remove(p.getPosition());
         }
     }
 
