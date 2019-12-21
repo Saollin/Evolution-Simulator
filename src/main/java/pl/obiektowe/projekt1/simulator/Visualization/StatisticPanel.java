@@ -1,5 +1,6 @@
 package pl.obiektowe.projekt1.simulator.Visualization;
 
+import pl.obiektowe.projekt1.simulator.Classes.EvolutionSimulatorMap;
 import pl.obiektowe.projekt1.simulator.Classes.Genotype;
 import pl.obiektowe.projekt1.simulator.Classes.Log;
 import pl.obiektowe.projekt1.simulator.Classes.StatisticOfDay;
@@ -30,12 +31,13 @@ public class StatisticPanel extends JPanel implements ActionListener {
 
     private JButton saveButton;
 
-    private Log log;
+    private EvolutionSimulatorMap map;
 
-    public StatisticPanel() {
+    public StatisticPanel(EvolutionSimulatorMap map) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
 
+        this.map = map;
         saveButton = new JButton("Save");
         saveButton.addActionListener(this);
 
@@ -101,15 +103,13 @@ public class StatisticPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
+            Log log = (Log) map.statisticObservers.get(0);
             log.saveAverageStaticAfterGivenNumberOfDay(log.statics.size());
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
 
-    public void setLog(Log log){
-        this.log = log;
-    }
 
     public void updateStatstics(StatisticOfDay statistic){
         numberOfAnimal.setText(statistic.getNumberOfAnimal() + "");

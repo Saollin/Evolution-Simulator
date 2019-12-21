@@ -46,7 +46,7 @@ public class MapSimulation implements ActionListener {
         plotRenderPanel = new PlotRenderPanel(map, this);
         plotRenderPanel.setSize(1, 1);
 
-        statisticPanel = new StatisticPanel();
+        statisticPanel = new StatisticPanel(map);
         statisticPanel.setSize(1,1);
 
         frame.add(renderPanel);
@@ -69,7 +69,7 @@ public class MapSimulation implements ActionListener {
         plotRenderPanel.repaint();
         renderPanel.repaint();
         map.oneDay();
-        statisticPanel.updateStatstics(log.getStatisticOfDay(plotRenderPanel.getTotalDays()));
+//        statisticPanel.updateStatistics(log.getStatisticOfDay(plotRenderPanel.getTotalDays()));
         if(map.areDeadAllAnimals()) {
             timer.stop();
         }
