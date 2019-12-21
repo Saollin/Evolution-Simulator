@@ -53,8 +53,8 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         this.startEnergy = startEnergy;
 
         this.jungleRatio = jungleRatio;
-        this.jungleWidth = (int) jungleRatio * width;
-        this.jungleHeight = (int) jungleRatio * height;
+        this.jungleWidth = (int) (jungleRatio * width);
+        this.jungleHeight = (int) (jungleRatio * height);
 
         //coordinates of jungle
         int xLowerLeft = (int) (width * 0.5 - 0.5 * jungleWidth);
@@ -104,15 +104,16 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
 
     @Override
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition, Object a) {
-        removeAnimal((Animal) a, oldPosition);
-        addAnimal((Animal) a, newPosition);
+        removePositionOfAnimal((Animal) a, oldPosition);
+        addPositionOfAnimal((Animal) a, newPosition);
     }
 
     @Override
     public boolean place(IMapElement element) {
         if (element instanceof Animal) {
-            addAnimal((Animal) element, element.getPosition());
+            addPositionOfAnimal((Animal) element, element.getPosition());
             ((Animal) element).addObservers(this);
+            animalList.add((Animal) element);
         }
         if (element instanceof Plant) {
             if (canPlantBePlaced(element.getPosition())) {
@@ -124,7 +125,7 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         return true;
     }
 
-    public boolean addAnimal(Animal newAnimal, Vector2d position) {
+    public boolean addPositionOfAnimal(Animal newAnimal, Vector2d position) {
         if (newAnimal == null) return false;
         LinkedList<Animal> list = animals.get(position);
         if (list == null) {
@@ -134,12 +135,11 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         } else {
             list.add(newAnimal);
         }
-        animalList.add(newAnimal);
         return true;
     }
 
     //call this method as final in the day
-    public boolean removeAnimal(Animal animal, Vector2d position) {
+    public boolean removePositionOfAnimal(Animal animal, Vector2d position) {
         LinkedList<Animal> list = animals.get(position);
         if (list == null)
             throw new IllegalArgumentException("Animal on position:" + animal.getPosition() + "already not exist");
@@ -155,18 +155,23 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
 
     public LinkedList<Animal> removeDeadAnimals() {
         LinkedList<Animal> deadAnimals = new LinkedList<>();
-        for (Animal a : animalList) {
+        LinkedList<Animal> allAnimals = animalList;
+        for (Animal a : allAnimals) {
             if (a.isDead()) {
-                removeAnimal(a, a.getPosition());
+                removePositionOfAnimal(a, a.getPosition());
                 a.removeObservers(this);
                 deadAnimals.add(a);
             }
+        }
+        for(Animal dead: deadAnimals){
+            animalList.remove(dead);
         }
         return deadAnimals;
     }
 
     public void moveAllAnimals() {
-        for (Animal a : animalList) {
+        LinkedList<Animal> allAnimal = animalList;
+        for (Animal a : allAnimal) {
             a.rotate();
             a.move(MoveDirection.FORWARD);
             a.changeEnergy(moveEnergy);
@@ -203,6 +208,7 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
     }
 
     public void reproduction() {
+        LinkedList<Animal> childs = new LinkedList<>();
         for (LinkedList<Animal> animalList : animals.values()) {
             if (animalList != null && animalList.size() >= 2) {
                 if (animalList.size() > 2) {
@@ -213,11 +219,14 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
                 if (canCopulate(firstParent) && canCopulate(secondParent)) {
                     Vector2d positionOfChild = randomPositionNextToOtherPosition(firstParent.getPosition());
                     Animal child = firstParent.copulate(secondParent, positionOfChild);
-                    place(child);
+                    childs.add(child);
                     firstParent.increaseNumberOfChild();
                     secondParent.increaseNumberOfChild();
                 }
             }
+        }
+        for(Animal child : childs) {
+            place(child);
         }
     }
 
@@ -283,7 +292,7 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
     public boolean placeAnimalInRandomFieldInJungle(){
         Random generator = new Random();
         int sizeOfJungle = jungleHeight * jungleWidth;
-        if(animals.size()/sizeOfJungle < 0.8){
+        if(animals.size() == 0 || animals.size()/sizeOfJungle < 0.8){
             int howMuchTime = 0;
             while(howMuchTime < sizeOfJungle){
                 int newX = generator.nextInt(jungleWidth) + jungleLowerLeft.getX();
@@ -356,4 +365,29 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
     public LinkedList<Animal> getAnimalList() {
         return animalList;
     }
+
+    public int getJungleWidth() {
+        return jungleWidth;
+    }
+
+    public int getJungleHeight() {
+        return jungleHeight;
+    }
+
+    public Vector2d getJungleUpperRight() {
+        return jungleUpperRight;
+    }
+
+    public Vector2d getJungleLowerLeft() {
+        return jungleLowerLeft;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
 }
