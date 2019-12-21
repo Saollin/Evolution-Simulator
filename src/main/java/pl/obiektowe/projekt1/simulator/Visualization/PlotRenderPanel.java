@@ -12,6 +12,11 @@ public class PlotRenderPanel extends JPanel {
 
     private EvolutionSimulatorMap map;
     private MapSimulation simulation;
+
+    public int getTotalDays() {
+        return totalDays;
+    }
+
     private int totalDays;
     ArrayList<Integer> animalsPopulation;
     ArrayList<Integer> grassPopulation;
@@ -27,7 +32,7 @@ public class PlotRenderPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        this.setSize((int) (simulation.frame.getWidth() * 0.4), simulation.frame.getHeight() - 38); //38 is toolbar size
+        this.setSize((int) (simulation.frame.getWidth() * 0.4), (int) (0.6*(simulation.frame.getHeight() - 38))); //38 is toolbar size
         this.setLocation(0, 0);
         int width = this.getWidth();
         int height = this.getHeight();

@@ -37,7 +37,7 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
     private LinkedList<Animal> animalList = new LinkedList<>();
 
     //statistic observers
-    private ArrayList<IStatisticObserver> statisticObservers = new ArrayList<>();
+    public ArrayList<IStatisticObserver> statisticObservers = new ArrayList<>();
 
     //static arrayList to generate random Positions in Jungle or Steppe
     private static ArrayList<Vector2d> jungle;
