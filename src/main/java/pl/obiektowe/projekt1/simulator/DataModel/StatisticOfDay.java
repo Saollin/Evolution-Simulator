@@ -1,6 +1,7 @@
-package pl.obiektowe.projekt1.simulator.Classes;
+package pl.obiektowe.projekt1.simulator.DataModel;
 
 import org.json.simple.JSONObject;
+import pl.obiektowe.projekt1.simulator.Classes.Genotype;
 
 import java.util.*;
 

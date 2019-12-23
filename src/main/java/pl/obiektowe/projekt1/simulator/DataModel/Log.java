@@ -1,6 +1,8 @@
-package pl.obiektowe.projekt1.simulator.Classes;
+package pl.obiektowe.projekt1.simulator.DataModel;
 
 import org.json.simple.JSONObject;
+import pl.obiektowe.projekt1.simulator.Classes.Animal;
+import pl.obiektowe.projekt1.simulator.Classes.Genotype;
 import pl.obiektowe.projekt1.simulator.Interfaces.IStatisticObserver;
 
 import java.io.FileWriter;

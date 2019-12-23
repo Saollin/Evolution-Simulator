@@ -5,4 +5,5 @@ module EvolutionSimulator {
     requires json.simple;
 
     opens pl.obiektowe.projekt1.simulator.Visualization;
+    opens pl.obiektowe.projekt1.simulator.DataModel;
 }
