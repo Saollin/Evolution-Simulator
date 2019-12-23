@@ -1,5 +1,7 @@
 package pl.obiektowe.projekt1.simulator.Classes;
 
+import pl.obiektowe.projekt1.simulator.DataModel.Log;
+import pl.obiektowe.projekt1.simulator.DataModel.StartParameters;
 import pl.obiektowe.projekt1.simulator.Enum.MapDirection;
 import pl.obiektowe.projekt1.simulator.Enum.MoveDirection;
 import pl.obiektowe.projekt1.simulator.Interfaces.IMapElement;
@@ -85,6 +87,11 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         }
 
         addObservers(new Log());
+    }
+
+    public EvolutionSimulatorMap(StartParameters parameters){
+        this(parameters.getWidth(), parameters.getHeight(), parameters.getJungleRatio() / 100.0,
+                parameters.getStartEnergy(), parameters.getMoveEnergy(), parameters.getPlantEnergy());
     }
 
     public Vector2d countRightPositionOnTheMap(Vector2d position) {
