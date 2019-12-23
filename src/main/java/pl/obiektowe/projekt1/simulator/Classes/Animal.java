@@ -26,7 +26,6 @@ public class Animal implements IMapElement {
         this.energy = startEnergy;
         this.genotypeOfAnimal = new Genotype();
         this.directionOfAnimal = MapDirection.valueOfDirectionNumber(this.genotypeOfAnimal.randomGen());
-        this.directionOfAnimal = MapDirection.NORTH;
         this.lifetime = 0;
         this.numberOfChild = 0;
     }

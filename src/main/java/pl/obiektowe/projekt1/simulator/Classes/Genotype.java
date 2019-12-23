@@ -115,4 +115,9 @@ public class Genotype {
     public int[] getGenes() {
         return genes;
     }
+
+    @Override
+    public String toString() {
+        return Arrays.toString(genes);
+    }
 }

@@ -83,6 +83,8 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
                 steppe.remove(position);
             }
         }
+
+        addObservers(new Log());
     }
 
     public Vector2d countRightPositionOnTheMap(Vector2d position) {
@@ -105,15 +107,16 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
 
     @Override
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition, Object a) {
-        removeAnimal((Animal) a, oldPosition);
-        addAnimal((Animal) a, newPosition);
+        removePositionOfAnimal((Animal) a, oldPosition);
+        addPositionOfAnimal((Animal) a, newPosition);
     }
 
     @Override
     public boolean place(IMapElement element) {
         if (element instanceof Animal) {
-            addAnimal((Animal) element, element.getPosition());
+            addPositionOfAnimal((Animal) element, element.getPosition());
             ((Animal) element).addObservers(this);
+            animalList.add((Animal) element);
         }
         if (element instanceof Plant) {
             if (canPlantBePlaced(element.getPosition())) {
@@ -125,7 +128,7 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         return true;
     }
 
-    public boolean addAnimal(Animal newAnimal, Vector2d position) {
+    public boolean addPositionOfAnimal(Animal newAnimal, Vector2d position) {
         if (newAnimal == null) return false;
         LinkedList<Animal> list = animals.get(position);
         if (list == null) {
@@ -135,12 +138,11 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         } else {
             list.add(newAnimal);
         }
-        animalList.add(newAnimal);
         return true;
     }
 
     //call this method as final in the day
-    public boolean removeAnimal(Animal animal, Vector2d position) {
+    public boolean removePositionOfAnimal(Animal animal, Vector2d position) {
         LinkedList<Animal> list = animals.get(position);
         if (list == null)
             throw new IllegalArgumentException("Animal on position:" + animal.getPosition() + "already not exist");
@@ -156,18 +158,23 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
 
     public LinkedList<Animal> removeDeadAnimals() {
         LinkedList<Animal> deadAnimals = new LinkedList<>();
-        for (Animal a : animalList) {
+        LinkedList<Animal> allAnimals = animalList;
+        for (Animal a : allAnimals) {
             if (a.isDead()) {
-                removeAnimal(a, a.getPosition());
+                removePositionOfAnimal(a, a.getPosition());
                 a.removeObservers(this);
                 deadAnimals.add(a);
             }
+        }
+        for(Animal dead: deadAnimals){
+            animalList.remove(dead);
         }
         return deadAnimals;
     }
 
     public void moveAllAnimals() {
-        for (Animal a : animalList) {
+        LinkedList<Animal> allAnimal = animalList;
+        for (Animal a : allAnimal) {
             a.rotate();
             a.move(MoveDirection.FORWARD);
             a.changeEnergy(moveEnergy);
@@ -177,33 +184,39 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
 
     public void eating() {
         LinkedList<Plant> eatedPlants = new LinkedList<>();
-
-        for (Plant plant : plants.values()) {
-            LinkedList<Animal> hungryAnimals = animals.get(plant.getPosition());
-            if (hungryAnimals != null && hungryAnimals.size() > 0) {
-                LinkedList<Animal> theStrongestOnes = new LinkedList<>();
-                theStrongestOnes.add(hungryAnimals.get(0));
-                for (int i = 1; i < hungryAnimals.size(); i++) {
-                    if (theStrongestOnes.getFirst().getEnergy() < hungryAnimals.get(i).getEnergy()) {
-                        theStrongestOnes.clear();
-                        theStrongestOnes.add(hungryAnimals.get(i));
-                    } else if (theStrongestOnes.getFirst().getEnergy() == hungryAnimals.get(i).getEnergy()) {
-                        theStrongestOnes.add(hungryAnimals.get(i));
+        ArrayList<Vector2d> positionsOfAnimals = new ArrayList<>(animals.keySet());
+        LinkedList<Animal> hungryAnimals;
+        for(Vector2d position : positionsOfAnimals){
+            hungryAnimals = animals.get(position);
+            if(plants.get(position)!=null){
+                if(hungryAnimals.size() == 1){
+                    hungryAnimals.get(0).changeEnergy(plantEnergy);
+                }
+                else if (hungryAnimals.size() > 1){
+                    LinkedList<Animal> theStrongestOnes = new LinkedList<>();
+                    theStrongestOnes.add(hungryAnimals.get(0));
+                    for (int i = 1; i < hungryAnimals.size(); i++) {
+                        if (theStrongestOnes.getFirst().getEnergy() < hungryAnimals.get(i).getEnergy()) {
+                            theStrongestOnes.clear();
+                            theStrongestOnes.add(hungryAnimals.get(i));
+                        } else if (theStrongestOnes.getFirst().getEnergy() == hungryAnimals.get(i).getEnergy()) {
+                            theStrongestOnes.add(hungryAnimals.get(i));
+                        }
+                    }
+                    for (Animal animal : theStrongestOnes) {
+                        animal.changeEnergy(plantEnergy / theStrongestOnes.size());
                     }
                 }
-                for (Animal animal : theStrongestOnes) {
-                    animal.changeEnergy(plantEnergy / theStrongestOnes.size());
-                }
-                eatedPlants.add(plant);
+                eatedPlants.add(plants.get(position));
             }
         }
-
         for (Plant p : eatedPlants) {
-            plants.remove(p);
+            plants.remove(p.getPosition());
         }
     }
 
     public void reproduction() {
+        LinkedList<Animal> childs = new LinkedList<>();
         for (LinkedList<Animal> animalList : animals.values()) {
             if (animalList != null && animalList.size() >= 2) {
                 if (animalList.size() > 2) {
@@ -214,11 +227,14 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
                 if (canCopulate(firstParent) && canCopulate(secondParent)) {
                     Vector2d positionOfChild = randomPositionNextToOtherPosition(firstParent.getPosition());
                     Animal child = firstParent.copulate(secondParent, positionOfChild);
-                    place(child);
+                    childs.add(child);
                     firstParent.increaseNumberOfChild();
                     secondParent.increaseNumberOfChild();
                 }
             }
+        }
+        for(Animal child : childs) {
+            place(child);
         }
     }
 
@@ -284,7 +300,7 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
     public boolean placeAnimalInRandomFieldInJungle(){
         Random generator = new Random();
         int sizeOfJungle = jungleHeight * jungleWidth;
-        if(animals.size()/sizeOfJungle < 0.8){
+        if(animals.size() == 0 || animals.size()/sizeOfJungle < 0.8){
             int howMuchTime = 0;
             while(howMuchTime < sizeOfJungle){
                 int newX = generator.nextInt(jungleWidth) + jungleLowerLeft.getX();
@@ -379,27 +395,12 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         return animalList;
     }
 
-    public Color colorForAnimal(Animal animal) {
-        if (animal.getEnergy() == 0) return new Color(222, 221, 224);
-        if (animal.getEnergy() < 0.2 * startEnergy) return new Color(255, 157, 169, 255);
-        if (animal.getEnergy() < 0.4 * startEnergy) return new Color(255, 110, 124);
-        if (animal.getEnergy() < 0.6 * startEnergy) return new Color(255, 0, 30, 255);
-        if (animal.getEnergy() < 0.8 * startEnergy) return new Color(226, 0, 32);
-        if (animal.getEnergy() < startEnergy) return new Color(205, 0, 32);
-        if (animal.getEnergy() < 2 * startEnergy) return new Color(179, 0, 31);
-        if (animal.getEnergy() < 4 * startEnergy) return new Color(153, 0, 30);
-        if (animal.getEnergy() < 6 * startEnergy) return new Color(131, 0, 28);
-        if (animal.getEnergy() < 8 * startEnergy) return new Color(112, 0, 28);
-        if (animal.getEnergy() < 10 * startEnergy) return new Color(87, 0, 22);
-        return new Color(75, 0, 20);
+    public int getJungleWidth() {
+        return jungleWidth;
     }
 
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
+    public int getJungleHeight() {
+        return jungleHeight;
     }
 
     public Vector2d getJungleUpperRight() {
@@ -410,15 +411,12 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         return jungleLowerLeft;
     }
 
-    public int getStartEnergy() {
-        return startEnergy;
+    public int getWidth() {
+        return width;
     }
 
-    public int getJungleWidth() {
-        return jungleWidth;
+    public int getHeight() {
+        return height;
     }
 
-    public int getJungleHeight() {
-        return jungleHeight;
-    }
 }
