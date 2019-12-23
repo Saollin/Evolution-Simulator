@@ -246,7 +246,7 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
             index = directions.get(generator.nextInt(directions.size()));
             direction = MapDirection.valueOfDirectionNumber(index);
             result = countRightPositionOnTheMap(position.add(direction.toUnitVector()));
-            directions.remove(index);
+            directions.remove(Integer.valueOf(index));
         } while (objectAt(result) != null && directions.size() != 0);
         return result;
     }
@@ -320,7 +320,9 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         reproduction();
         spawnGrassInSteppeAndJungle();
         LinkedList<Animal> deadAnimals = removeDeadAnimals();
-        notifyObservers(animalList, plants.size(), deadAnimals);
+        if(!isOnlyOneAnimal()) {
+            notifyObservers(animalList, plants.size(), deadAnimals);
+        }
     }
 
     public void addObservers(IStatisticObserver observer){
@@ -361,8 +363,8 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         return new Color(75, 0, 20);
     }
 
-    public boolean areDeadAllAnimals(){
-        return animalList.size()  == 0;
+    public boolean isOnlyOneAnimal(){
+        return animalList.size()  == 1;
     }
 
     public Map<Vector2d, Plant> getPlants() {

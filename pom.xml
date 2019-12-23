@@ -73,10 +73,10 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.3</version>
                 <configuration>
-                    <mainClass>HelloFX</mainClass>
+                    <release>11</release>
                 </configuration>
-            </plugin>
-        </plugins>
+    </plugin>
+</plugins>
     </build>
 
 </project>

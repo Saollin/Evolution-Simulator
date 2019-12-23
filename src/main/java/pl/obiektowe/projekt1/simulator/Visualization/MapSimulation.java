@@ -2,7 +2,6 @@ package pl.obiektowe.projekt1.simulator.Visualization;
 
 import pl.obiektowe.projekt1.simulator.Classes.EvolutionSimulatorMap;
 import pl.obiektowe.projekt1.simulator.Classes.Log;
-import pl.obiektowe.projekt1.simulator.Classes.StatisticOfDay;
 
 import javax.swing.*;
 import java.awt.*;
@@ -69,8 +68,9 @@ public class MapSimulation implements ActionListener {
         plotRenderPanel.repaint();
         renderPanel.repaint();
         map.oneDay();
-//        statisticPanel.updateStatistics(log.getStatisticOfDay(plotRenderPanel.getTotalDays()));
-        if(map.areDeadAllAnimals()) {
+
+        //        statisticPanel.updateStatistics(log.getStatisticOfDay(plotRenderPanel.getTotalDays()));
+        if(map.isOnlyOneAnimal()) {
             timer.stop();
         }
     }

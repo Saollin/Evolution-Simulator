@@ -6,7 +6,6 @@ import pl.obiektowe.projekt1.simulator.Interfaces.IMapElement;
 import pl.obiektowe.projekt1.simulator.Interfaces.IPositionChangeObserver;
 import pl.obiektowe.projekt1.simulator.Interfaces.IWorldMap;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class Animal implements IMapElement {
