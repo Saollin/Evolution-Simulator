@@ -1,7 +1,7 @@
 package pl.obiektowe.projekt1.simulator.Visualization;
 
 import pl.obiektowe.projekt1.simulator.Classes.EvolutionSimulatorMap;
-import pl.obiektowe.projekt1.simulator.Classes.Log;
+import pl.obiektowe.projekt1.simulator.DataModel.Log;
 
 import javax.swing.*;
 import java.awt.*;
