@@ -11,8 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.obiektowe.projekt1.simulator.Visualization.MenuController">
+<VBox alignment="CENTER" prefWidth="600.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.obiektowe.projekt1.simulator.Visualization.MenuController">
     <children>
       <Label alignment="CENTER" prefWidth="600.0" style="-fx-padding: 10 0 10;" text="Size properties" textAlignment="CENTER" VBox.vgrow="ALWAYS">
          <font>
@@ -20,12 +19,21 @@
          </font></Label>
       <GridPane alignment="CENTER" layoutX="154.0" layoutY="222.0" nodeOrientation="LEFT_TO_RIGHT">
           <children>
-             <Label text="Width of Map" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-             <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-             <Label text="Height of map" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-             <TextField prefHeight="26.0" prefWidth="138.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-             <Label text="Jungle ratio (in percent)" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-             <TextField prefWidth="500.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+             <Label alignment="CENTER_RIGHT" text="Width of Map" textAlignment="CENTER" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+               <padding>
+                  <Insets right="10.0" />
+               </padding></Label>
+             <TextField fx:id="width" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+             <Label alignment="CENTER_RIGHT" text="Height of map" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+               <padding>
+                  <Insets right="10.0" />
+               </padding></Label>
+             <TextField fx:id="height" prefHeight="26.0" prefWidth="138.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+             <Label alignment="CENTER_RIGHT" text="Jungle ratio (in percent)" textAlignment="CENTER" GridPane.halignment="RIGHT" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+               <padding>
+                  <Insets right="10.0" />
+               </padding></Label>
+             <TextField fx:id="jungleRatio" prefWidth="500.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
          <columnConstraints>
             <ColumnConstraints minWidth="131.20003662109374" percentWidth="40.0" />
@@ -44,17 +52,32 @@
             </font></Label>
        <GridPane alignment="CENTER" layoutX="65.0" layoutY="148.0" minHeight="-Infinity" minWidth="-Infinity">
           <children>
-              <Label text="Day Energy cost" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
-              <TextField prefHeight="26.0" prefWidth="166.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-              <Label prefHeight="18.0" prefWidth="144.0" text="Start Energy of animals" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-              <TextField prefHeight="26.0" prefWidth="138.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-              <Label text="Energy from plants" textAlignment="CENTER" textOverrun="CLIP" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-              <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
+              <Label alignment="CENTER" text="Day Energy cost" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="0" GridPane.valignment="CENTER">
+               <padding>
+                  <Insets right="10.0" />
+               </padding></Label>
+              <TextField fx:id="moveEnergy" prefHeight="26.0" prefWidth="166.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+              <Label alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="144.0" text="Start Energy of animals" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+               <padding>
+                  <Insets right="10.0" />
+               </padding></Label>
+              <TextField fx:id="startEnergy" prefHeight="26.0" prefWidth="138.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+              <Label alignment="CENTER" text="Energy from plants" textAlignment="CENTER" textOverrun="CLIP" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+               <padding>
+                  <Insets right="10.0" />
+               </padding></Label>
+              <TextField fx:id="plantEnergy" GridPane.columnIndex="1" GridPane.rowIndex="3" />
           </children>
          <columnConstraints>
             <ColumnConstraints percentWidth="40.0" />
             <ColumnConstraints percentWidth="40.0" />
          </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
       </GridPane>
         <Label alignment="CENTER" prefWidth="600.0" style="-fx-padding: 10 0 10;" text="Spawn properties" textAlignment="CENTER" VBox.vgrow="ALWAYS">
             <font>
@@ -62,13 +85,20 @@
             </font></Label>
        <GridPane alignment="CENTER">
            <children>
-               <Label text="How many animals should be spawned" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
-               <TextField GridPane.columnIndex="1" GridPane.rowIndex="0" />
+               <Label alignment="CENTER_RIGHT" text="How many animals should be spawned" GridPane.columnIndex="0"
+                      GridPane.halignment="RIGHT" GridPane.rowIndex="0" GridPane.valignment="CENTER">
+               <padding>
+                  <Insets right="10.0" />
+               </padding></Label>
+               <TextField fx:id="numberOfAnimalsToSpawn" GridPane.columnIndex="1" GridPane.rowIndex="0" />
            </children>
          <columnConstraints>
             <ColumnConstraints maxWidth="257.99998474121094" minWidth="166.4" percentWidth="40.0" prefWidth="243.0" />
             <ColumnConstraints maxWidth="188.80000000000004" minWidth="98.80001525878907" percentWidth="40.0" prefWidth="113.80000000000001" />
          </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+         </rowConstraints>
        </GridPane>
         <Label alignment="CENTER" prefWidth="600.0" style="-fx-padding: 10 0 10;" text="Other properties" textAlignment="CENTER" VBox.vgrow="ALWAYS">
             <font>
@@ -76,8 +106,11 @@
             </font></Label>
         <GridPane alignment="CENTER" layoutX="65.0" layoutY="148.0" minHeight="-Infinity" minWidth="-Infinity">
             <children>
-                <Label text="Refreshing time of map" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <Label alignment="CENTER_RIGHT" text="Refreshing time of map" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+               <padding>
+                  <Insets right="10.0" />
+               </padding></Label>
+                <TextField fx:id="refreshingTime" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             </children>
          <columnConstraints>
             <ColumnConstraints percentWidth="40.0" />
@@ -90,7 +123,7 @@
         </GridPane>
       <HBox alignment="CENTER" prefWidth="200.0">
          <children>
-            <Button mnemonicParsing="false" style="-fx-border-style: solid; -fx-border-width: 2; -fx-border-color: green; -fx-background-color: white; -fx-border-radius: 10;" text="Start simulation">
+            <Button mnemonicParsing="false" text="Start simulation">
                <padding>
                   <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
                </padding>
