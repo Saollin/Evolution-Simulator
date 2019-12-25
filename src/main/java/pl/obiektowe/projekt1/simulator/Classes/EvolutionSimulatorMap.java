@@ -1,5 +1,6 @@
 package pl.obiektowe.projekt1.simulator.Classes;
 
+import javafx.scene.paint.Color;
 import pl.obiektowe.projekt1.simulator.DataModel.Log;
 import pl.obiektowe.projekt1.simulator.DataModel.StartParameters;
 import pl.obiektowe.projekt1.simulator.Enum.MapDirection;
@@ -9,7 +10,6 @@ import pl.obiektowe.projekt1.simulator.Interfaces.IPositionChangeObserver;
 import pl.obiektowe.projekt1.simulator.Interfaces.IStatisticObserver;
 import pl.obiektowe.projekt1.simulator.Interfaces.IWorldMap;
 
-import java.awt.*;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -371,19 +371,34 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         return result;
     }
 
+//    public java.awt.Color colorForAnimal(Animal animal) {
+//        if (animal.getEnergy() == 0) return new java.awt.Color(222, 221, 224);
+//        if (animal.getEnergy() < 0.2 * startEnergy) return new java.awt.Color(255, 157, 169, 255);
+//        if (animal.getEnergy() < 0.4 * startEnergy) return new java.awt.Color(255, 110, 124);
+//        if (animal.getEnergy() < 0.6 * startEnergy) return new java.awt.Color(255, 0, 30, 255);
+//        if (animal.getEnergy() < 0.8 * startEnergy) return new java.awt.Color(226, 0, 32);
+//        if (animal.getEnergy() < startEnergy) return new java.awt.Color(205, 0, 32);
+//        if (animal.getEnergy() < 2 * startEnergy) return new java.awt.Color(179, 0, 31);
+//        if (animal.getEnergy() < 4 * startEnergy) return new java.awt.Color(153, 0, 30);
+//        if (animal.getEnergy() < 6 * startEnergy) return new java.awt.Color(131, 0, 28);
+//        if (animal.getEnergy() < 8 * startEnergy) return new java.awt.Color(112, 0, 28);
+//        if (animal.getEnergy() < 10 * startEnergy) return new java.awt.Color(87, 0, 22);
+//        return new java.awt.Color(75, 0, 20);
+//    }
+
     public Color colorForAnimal(Animal animal) {
-        if (animal.getEnergy() == 0) return new Color(222, 221, 224);
-        if (animal.getEnergy() < 0.2 * startEnergy) return new Color(255, 157, 169, 255);
-        if (animal.getEnergy() < 0.4 * startEnergy) return new Color(255, 110, 124);
-        if (animal.getEnergy() < 0.6 * startEnergy) return new Color(255, 0, 30, 255);
-        if (animal.getEnergy() < 0.8 * startEnergy) return new Color(226, 0, 32);
-        if (animal.getEnergy() < startEnergy) return new Color(205, 0, 32);
-        if (animal.getEnergy() < 2 * startEnergy) return new Color(179, 0, 31);
-        if (animal.getEnergy() < 4 * startEnergy) return new Color(153, 0, 30);
-        if (animal.getEnergy() < 6 * startEnergy) return new Color(131, 0, 28);
-        if (animal.getEnergy() < 8 * startEnergy) return new Color(112, 0, 28);
-        if (animal.getEnergy() < 10 * startEnergy) return new Color(87, 0, 22);
-        return new Color(75, 0, 20);
+        if (animal.getEnergy() == 0) return Color.web("rgb(222, 221, 224)");
+        if (animal.getEnergy() < 0.2 * startEnergy) return Color.web("rgb(255, 157, 169)");
+        if (animal.getEnergy() < 0.4 * startEnergy) return Color.web("rgb(255, 110, 124)");
+        if (animal.getEnergy() < 0.6 * startEnergy) return Color.web("rgb(255, 0, 30)");
+        if (animal.getEnergy() < 0.8 * startEnergy) return Color.web("rgb(226, 0, 32)");
+        if (animal.getEnergy() < startEnergy) return Color.web("rgb(205, 0, 32)");
+        if (animal.getEnergy() < 2 * startEnergy) return Color.web("rgb(179, 0, 31)");
+        if (animal.getEnergy() < 4 * startEnergy) return Color.web("rgb(153, 0, 30)");
+        if (animal.getEnergy() < 6 * startEnergy) return Color.web("rgb(131, 0, 28)");
+        if (animal.getEnergy() < 8 * startEnergy) return Color.web("rgb(112, 0, 28)");
+        if (animal.getEnergy() < 10 * startEnergy) return Color.web("rgb(87, 0, 22)");
+        return Color.web("rgb(75, 0, 20)");
     }
 
     public boolean isOnlyOneAnimal(){
