@@ -47,6 +47,10 @@ public class MenuController {
     @FXML
     private Button startButton;
 
+    public static EvolutionSimulatorMap map1;
+    public static EvolutionSimulatorMap map2;
+    public static int delay;
+
     public void initialize(){
         StartParameters startParameters = StartParameters.getInstance();
         width.setText(startParameters.getWidth()+"");
@@ -69,10 +73,18 @@ public class MenuController {
             public void handle(ActionEvent event) {
                 Parent root;
                 try {
-                    EvolutionSimulatorMap map1 = new EvolutionSimulatorMap(startParameters);
-                    EvolutionSimulatorMap map2 = new EvolutionSimulatorMap(startParameters);
-                    root = FXMLLoader.load(getClass().getResource("/fxml/EvolutionSimulator.fxml"));
+                    map1 = new EvolutionSimulatorMap(startParameters);
+                    map2 = new EvolutionSimulatorMap(startParameters);
+                    delay = startParameters.getRefreshingTime();
+                    for(int i = 0; i < startParameters.getNumberOfAnimalsToSpawn(); i++){
+                        map1.placeAnimalInRandomFieldInJungle();
+                        map2.placeAnimalInRandomFieldInJungle();
+                    }
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/EvolutionSimulator.fxml"));
+                    root = (Parent) loader.load();
+                    EvolutionSimulatorController controller = loader.getController();
                     Stage stage = new Stage();
+                    stage.setMaximized(true);
                     stage.setTitle("My New Stage Title");
                     stage.setScene(new Scene(root));
                     stage.show();

@@ -55,7 +55,6 @@ public class MapSimulation implements ActionListener {
     }
 
     public void startSimulation() {
-
         for (int i = 0; i < startNumOfAnimals; i++) {
             map.placeAnimalInRandomFieldInJungle();
         }
@@ -68,7 +67,6 @@ public class MapSimulation implements ActionListener {
         plotRenderPanel.repaint();
         renderPanel.repaint();
         map.oneDay();
-
         //        statisticPanel.updateStatistics(log.getStatisticOfDay(plotRenderPanel.getTotalDays()));
         if(map.isOnlyOneAnimal()) {
             timer.stop();
