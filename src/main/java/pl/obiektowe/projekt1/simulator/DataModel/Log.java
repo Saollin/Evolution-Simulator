@@ -98,7 +98,7 @@ public class Log implements IStatisticObserver {
         for (Animal animal : deadAnimals) {
             sumOfLifetime += animal.getLifetime();
         }
-        return sumOfLifetime / deadAnimals.size();
+        return  deadAnimals.size() > 0 ? sumOfLifetime / deadAnimals.size() : 0;
     }
 
     private double countAverageNumberChildOfLivingAnimals(LinkedList<Animal> animals) {
