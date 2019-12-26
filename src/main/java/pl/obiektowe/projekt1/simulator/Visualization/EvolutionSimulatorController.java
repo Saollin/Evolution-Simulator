@@ -20,15 +20,18 @@ import javafx.util.Duration;
 import pl.obiektowe.projekt1.simulator.Classes.Animal;
 import pl.obiektowe.projekt1.simulator.Classes.EvolutionSimulatorMap;
 import pl.obiektowe.projekt1.simulator.Classes.Plant;
+import pl.obiektowe.projekt1.simulator.Classes.Vector2d;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.*;
 
 public class EvolutionSimulatorController {
+
     private double height = 500;
     private double width = 500;
     private int rows;
     private int columns;
+    private double gridWidth;
+    private double gridHeight;
 
 
     public Timeline timeline;
@@ -60,8 +63,8 @@ public class EvolutionSimulatorController {
     @FXML
     private Label dominantGenotype1;
 
-    private StackPane [][] myNodesMap1;
-    private StackPane [][] myNodesMap2;
+    private HashMap<Vector2d, LinkedList<Node>> myNodesMap1 = new HashMap<>();
+    private HashMap<Vector2d, LinkedList<Node>> myNodesMap2 = new HashMap<>();
 
     //disactivated map1
     @FXML
@@ -116,8 +119,8 @@ public class EvolutionSimulatorController {
     public void initialize(){
         rows = MenuController.map1.getHeight();
         columns = MenuController.map1.getWidth();
-        myNodesMap1 = new StackPane[rows][columns];
-        myNodesMap2 = new StackPane[rows][columns];
+        gridWidth = width / rows;
+        gridHeight = height / columns;
         drawSteppeAndJungle(MenuController.map1);
         timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -181,14 +184,14 @@ public class EvolutionSimulatorController {
             for( int j=0; j < columns; j++) {
                 Color color = Color.web("rgb(148, 171, 48)");
 //                        new Color(148, 171, 48, 1);
-                MyNode node1 = new MyNode(i * gridWidth, j * gridHeight, gridWidth, gridHeight, color);
-                MyNode node2 = new MyNode(i * gridWidth, j * gridHeight, gridWidth, gridHeight, color);
+                FieldNode node1 = new FieldNode(i * gridWidth, j * gridHeight, gridWidth, gridHeight, color);
+                FieldNode node2 = new FieldNode(i * gridWidth, j * gridHeight, gridWidth, gridHeight, color);
                 // add node to group
                 anchorPaneMap1.getChildren().add(node1);
                 anchorPaneMap2.getChildren().add(node2);
 
-                myNodesMap1[i][j] = node1;
-                myNodesMap2[i][j] = node2;
+                myNodesMap1.put(new Vector2d(i,j), new LinkedList<Node>(Arrays.asList(node1)));
+                myNodesMap2.put(new Vector2d(i,j), new LinkedList<Node>(Arrays.asList(node2)));
             }
         }
         //drawing Jungle
@@ -196,17 +199,15 @@ public class EvolutionSimulatorController {
             for( int j=map.getJungleLowerLeft().getY(); j < map.getJungleLowerLeft().getY() + map.getJungleHeight(); j++) {
                 Color color = Color.web("rgb(16, 70, 19)");
 //                        new Color(148, 171, 48, 1);
-                MyNode node1 = new MyNode(i * gridWidth, j * gridHeight, gridWidth, gridHeight, color);
-                MyNode node2 = new MyNode(i * gridWidth, j * gridHeight, gridWidth, gridHeight, color);
-                StackPane oldNode = myNodesMap1[i][j];
-                myNodesMap1[i][j] = node1;
+                FieldNode node1 = new FieldNode(i * gridWidth, j * gridHeight, gridWidth, gridHeight, color);
+                FieldNode node2 = new FieldNode(i * gridWidth, j * gridHeight, gridWidth, gridHeight, color);
+                Vector2d position = new Vector2d(i,j);
+                myNodesMap1.get(position).add(node1);
                 // add node to group
-                anchorPaneMap1.getChildren().remove(oldNode);
                 anchorPaneMap1.getChildren().add(node1);
 
-                myNodesMap2[i][j] = node2;
+                myNodesMap2.get(position).add(node2);
                 // add node to group
-                anchorPaneMap2.getChildren().remove(oldNode);
                 anchorPaneMap2.getChildren().add(node2);
             }
         }
@@ -217,57 +218,43 @@ public class EvolutionSimulatorController {
         double gridHeight = height / columns;
         ArrayList<Plant> plants1 = new ArrayList<>(map1.getPlants().values());
         for(Plant plant:plants1) {
-            Color color = Color.web("rgb(63, 179, 42)");
-//            Image image = new Image(String.valueOf(getClass().getClassLoader().getResource("plant.png")));
-//            ImageView imageView = new ImageView();
-//            imageView.setImage(image);
             int i = plant.getPosition().getX();
             int j = plant.getPosition().getY();
-            MyNode node = new MyNode(i * gridWidth, j * gridHeight, gridWidth, gridHeight , color);
-            StackPane oldNode = myNodesMap1[i][j];
-            oldNode.getChildren().add(node);
-            // add node to group
-            anchorPaneMap1.getChildren().add(node);
+            PlantNode plantNode = new PlantNode(i * gridWidth, j * gridHeight, gridWidth, gridHeight);
+            Vector2d position = new Vector2d(i,j);
+            myNodesMap1.get(position).add(plantNode);
+            anchorPaneMap1.getChildren().add(plantNode);
+            plantNode.toFront();
         }
         for(Animal animal:map1.getAnimalList()) {
             Color color = map1.colorForAnimal(animal);
             int i = animal.getPosition().getX();
             int j = animal.getPosition().getY();
-            OvalNode node = new OvalNode(i * gridWidth, j * gridHeight, gridWidth /3, gridHeight /3 , color);
-            StackPane oldNode = myNodesMap1[i][j];
-            oldNode.getChildren().add(node);
-            // add node to group
+            AnimalNode node = new AnimalNode(i * gridWidth, j * gridHeight, gridWidth /3, gridHeight /3 , color);
+            Vector2d position = new Vector2d(i,j);
+            myNodesMap1.get(position).add(node);
             anchorPaneMap1.getChildren().add(node);
         }
     }
+
     public void drawAnimalsAndPlantsOnMap2(EvolutionSimulatorMap map2){
-        double gridWidth = width / rows;
-        double gridHeight = height / columns;
         ArrayList<Plant> plants2 = new ArrayList<>(map2.getPlants().values());
         for(Plant plant:plants2) {
-//            Color color = Color.web("rgb(63, 179, 42)");
-            Image image = new Image(String.valueOf(getClass().getClassLoader().getResource("plant.png")));
-            ImageView imageView = new ImageView();
-            imageView.setImage(image);
             int i = plant.getPosition().getX();
             int j = plant.getPosition().getY();
-//            MyNode node = new MyNode(i * gridWidth, j * gridHeight, gridWidth, gridHeight , color);
-            imageView.setFitWidth(gridWidth);
-            imageView.setFitHeight(gridHeight);
-            StackPane oldNode = myNodesMap2[i][j];
-            oldNode.getChildren().add(imageView);
-            // add node to group
-            anchorPaneMap2.getChildren().add(imageView);
-            imageView.toFront();
+            PlantNode plantNode = new PlantNode(i * gridWidth, j * gridHeight, gridWidth, gridHeight);
+            Vector2d position = new Vector2d(i,j);
+            myNodesMap2.get(position).add(plantNode);
+            anchorPaneMap2.getChildren().add(plantNode);
+            plantNode.toFront();
         }
         for(Animal animal:map2.getAnimalList()) {
             Color color = map2.colorForAnimal(animal);
             int i = animal.getPosition().getX();
             int j = animal.getPosition().getY();
-            OvalNode node = new OvalNode(i * gridWidth, j * gridHeight, gridWidth /3, gridHeight /3 , color);
-            StackPane oldNode = myNodesMap2[i][j];
-            oldNode.getChildren().add(node);
-            // add node to group
+            AnimalNode node = new AnimalNode(i * gridWidth, j * gridHeight, gridWidth /3, gridHeight /3 , color);
+            Vector2d position = new Vector2d(i,j);
+            myNodesMap2.get(position).add(node);
             anchorPaneMap2.getChildren().add(node);
         }
     }
@@ -276,26 +263,28 @@ public class EvolutionSimulatorController {
         LinkedList<Plant> plants1 = new LinkedList<>(map1.getPlants().values());
         LinkedList<Animal> animals1 = new LinkedList<>(map1.getAnimalList());
         for(Animal animal:animals1){
-            int i = animal.getPosition().getX();
-            int j = animal.getPosition().getY();
-            OvalNode animalNode;
-            for(Node node:myNodesMap1[i][j].getChildren()){
-                if(node instanceof OvalNode){
-                    animalNode = (OvalNode) node;
-                    myNodesMap1[i][j].getChildren().remove(node);
-                    anchorPaneMap1.getChildren().remove(node);
+            Vector2d position = animal.getPosition();
+            AnimalNode animalNode;
+            LinkedList<Node> nodes = new LinkedList<>(myNodesMap1.get(position));
+            for(Node node:nodes){
+                if(node instanceof AnimalNode){
+                    animalNode = (AnimalNode) node;
+                    myNodesMap1.get(position).remove(animalNode);
+                    anchorPaneMap1.getChildren().remove(animalNode);
                 }
             }
         }
         for(Plant plant:plants1){
-            int i = plant.getPosition().getX();
-            int j = plant.getPosition().getY();
-            OvalNode plantNode;
-            for(Node node:myNodesMap1[i][j].getChildren()){
-                if(node instanceof OvalNode){
-                    plantNode = (OvalNode) node;
-                    myNodesMap1[i][j].getChildren().remove(node);
-                    anchorPaneMap1.getChildren().remove(node);
+//            int i = plant.getPosition().getX();
+//            int j = plant.getPosition().getY();
+            Vector2d position = plant.getPosition();
+            PlantNode plantNode;
+            LinkedList<Node> nodes = new LinkedList<>(myNodesMap1.get(position));
+            for(Node node:nodes){
+                if(node instanceof PlantNode){
+                    plantNode = (PlantNode) node;
+                    myNodesMap1.get(position).remove(plantNode);
+                    anchorPaneMap1.getChildren().remove(plantNode);
                 }
             }
         }
@@ -305,35 +294,38 @@ public class EvolutionSimulatorController {
         LinkedList<Plant> plants2 = new LinkedList<>(map2.getPlants().values());
         LinkedList<Animal> animals2 = new LinkedList<>(map2.getAnimalList());
         for(Animal animal:animals2){
-            int i = animal.getPosition().getX();
-            int j = animal.getPosition().getY();
-            OvalNode animalNode;
-            ArrayList<Node> nodes = new ArrayList<>(myNodesMap2[i][j].getChildren());
+//            int i = animal.getPosition().getX();
+//            int j = animal.getPosition().getY();
+            Vector2d position = animal.getPosition();
+            AnimalNode animalNode;
+            LinkedList<Node> nodes = new LinkedList<>(myNodesMap2.get(position));
             for(Node node:nodes){
-                if(node instanceof OvalNode){
-                    animalNode = (OvalNode) node;
-                    myNodesMap2[i][j].getChildren().remove(node);
-                    anchorPaneMap2.getChildren().remove(node);
+                if(node instanceof AnimalNode){
+                    animalNode = (AnimalNode) node;
+                    myNodesMap2.get(position).remove(animalNode);
+                    anchorPaneMap2.getChildren().remove(animalNode);
                 }
             }
         }
         for(Plant plant:plants2){
-            int i = plant.getPosition().getX();
-            int j = plant.getPosition().getY();
-            OvalNode plantNode;
-            for(Node node:myNodesMap2[i][j].getChildren()){
-                if(node instanceof OvalNode){
-                    plantNode = (OvalNode) node;
-                    myNodesMap2[i][j].getChildren().remove(node);
-                    anchorPaneMap2.getChildren().remove(node);
+//            int i = plant.getPosition().getX();
+//            int j = plant.getPosition().getY();
+            Vector2d position = plant.getPosition();
+            PlantNode plantNode;
+            LinkedList<Node> nodes = new LinkedList<>(myNodesMap2.get(position));
+            for(Node node:nodes){
+                if(node instanceof PlantNode){
+                    plantNode = (PlantNode) node;
+                    myNodesMap2.get(position).remove(plantNode);
+                    anchorPaneMap2.getChildren().remove(plantNode);
                 }
             }
         }
     }
 
-    public static class MyNode extends StackPane {
+    public static class FieldNode extends StackPane {
 
-        public MyNode(double x, double y, double width, double height, Color color) {
+        public FieldNode(double x, double y, double width, double height, Color color) {
 
             // create rectangle
             Rectangle rectangle = new Rectangle(width, height);
@@ -350,9 +342,9 @@ public class EvolutionSimulatorController {
         }
     }
 
-    public static class OvalNode extends StackPane {
+    public static class AnimalNode extends StackPane {
 
-        public OvalNode(double x, double y, double width, double height, Color color) {
+        public AnimalNode(double x, double y, double width, double height, Color color) {
             double radius = width < height ? width : height;
             Circle circle = new Circle(radius,color);
 
@@ -361,6 +353,21 @@ public class EvolutionSimulatorController {
 
             getChildren().addAll(circle);
         }
+    }
+
+    public class PlantNode extends ImageView {
+
+        private Image image = new Image(String.valueOf(getClass().getClassLoader().getResource("plant2.png")));
+
+            PlantNode(double x, double y, double width, double height){
+                super();
+                this.setImage(image);
+                this.setFitWidth(width);
+                this.setFitHeight(height);
+                setTranslateX(x);
+                setTranslateY(y);
+            }
+
     }
 
 }
