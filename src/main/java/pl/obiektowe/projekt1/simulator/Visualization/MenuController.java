@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import pl.obiektowe.projekt1.simulator.Classes.EvolutionSimulator;
 import pl.obiektowe.projekt1.simulator.Classes.EvolutionSimulatorMap;
 import pl.obiektowe.projekt1.simulator.DataModel.StartParameters;
@@ -87,7 +88,14 @@ public class MenuController {
                     stage.setMaximized(true);
                     stage.setTitle("My New Stage Title");
                     stage.setScene(new Scene(root));
+                    stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                        @Override
+                        public void handle(WindowEvent windowEvent) {
+                            controller.timeline.stop();
+                        }
+                    });
                     stage.show();
+
                 }
                 catch (IOException e) {
                     e.printStackTrace();
