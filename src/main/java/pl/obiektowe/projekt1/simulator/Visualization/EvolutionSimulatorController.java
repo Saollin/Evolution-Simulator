@@ -1,6 +1,7 @@
 package pl.obiektowe.projekt1.simulator.Visualization;
 
 import javafx.animation.KeyFrame;
+import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -14,8 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.*;
 import javafx.util.Duration;
 import pl.obiektowe.projekt1.simulator.Classes.Animal;
 import pl.obiektowe.projekt1.simulator.Classes.EvolutionSimulatorMap;
@@ -32,6 +32,10 @@ public class EvolutionSimulatorController {
     private int columns;
     private double gridWidth;
     private double gridHeight;
+    static boolean alreadyExecuted = false;
+    private HashMap<Vector2d, LinkedList<Node>> myNodesMap1 = new HashMap<>();
+    private HashMap<Vector2d, LinkedList<Node>> myNodesMap2 = new HashMap<>();
+    private HashMap<Animal, Vector2d> previousAnimalsPositions;
 
 
     public Timeline timeline;
@@ -63,8 +67,6 @@ public class EvolutionSimulatorController {
     @FXML
     private Label dominantGenotype1;
 
-    private HashMap<Vector2d, LinkedList<Node>> myNodesMap1 = new HashMap<>();
-    private HashMap<Vector2d, LinkedList<Node>> myNodesMap2 = new HashMap<>();
 
     //disactivated map1
     @FXML
@@ -117,8 +119,10 @@ public class EvolutionSimulatorController {
 
 
     public void initialize(){
-        rows = MenuController.map1.getHeight();
-        columns = MenuController.map1.getWidth();
+        EvolutionSimulatorMap esm1 = MenuController.map1;
+        EvolutionSimulatorMap esm2 = MenuController.map2;
+        rows = esm1.getHeight();
+        columns = esm1.getWidth();
         gridWidth = width / rows;
         gridHeight = height / columns;
         drawSteppeAndJungle(MenuController.map1);
@@ -128,14 +132,19 @@ public class EvolutionSimulatorController {
                 new EventHandler<javafx.event.ActionEvent>() {
                     @Override
                     public void handle(javafx.event.ActionEvent actionEvent) {
-                        EvolutionSimulatorMap esm1 = MenuController.map1;
-                        EvolutionSimulatorMap esm2 = MenuController.map2;
                         LinkedList<Plant> plants1 = new LinkedList<>(esm1.getPlants().values());
                         LinkedList<Plant> plants2 = new LinkedList<>(esm2.getPlants().values());
-                        if(!esm1.isOnlyOneAnimal()){
-                            removePreviousAnimalsAndPlantsFromMap1(esm1);
-                            esm1.oneDay();
+                        if (!alreadyExecuted) {
                             drawAnimalsAndPlantsOnMap1(esm1);
+                            alreadyExecuted = true;
+                        }
+                        if(!esm1.isOnlyOneAnimal()){
+//                            removePreviousAnimalsAndPlantsFromMap1(esm1);
+                            getPreviousAnimalsPositions(esm1);
+                            esm1.oneDay();
+                            animateAnimalsOnMap1();
+//                            removePreviousAnimalsAndPlantsFromMap1(esm1);
+//                            drawAnimalsAndPlantsOnMap1(esm1);
                         }
                         if(!esm2.isOnlyOneAnimal()) {
                             removePreviousAnimalsAndPlantsFromMap2(esm2);
@@ -213,6 +222,43 @@ public class EvolutionSimulatorController {
         }
     }
 
+    public void getPreviousAnimalsPositions(EvolutionSimulatorMap map1){
+        HashMap<Animal, Vector2d> result = new HashMap<>();
+        for(Animal animal:map1.getAnimalList()){
+            result.put(animal, animal.getPosition());
+        }
+        previousAnimalsPositions = result;
+    }
+
+    public void animateAnimalsOnMap1(){
+        Iterator it = previousAnimalsPositions.entrySet().iterator();
+        while(it.hasNext()){
+            Map.Entry pair = (Map.Entry) it.next();
+            Animal animal = (Animal) pair.getKey();
+            Vector2d newPosition = animal.getPosition();
+            Vector2d oldPosition = (Vector2d) pair.getValue();
+            Node animalNode = myNodesMap1.get(oldPosition).getLast();
+            animalNode.toFront();
+
+            Path path = new Path();
+            path.getElements().add (new MoveTo( animalNode.getTranslateX() + animalNode.getBoundsInParent().getWidth() / 2.0, animalNode.getTranslateY() + animalNode.getBoundsInParent().getHeight() / 2.0));
+            path.getElements().add (new LineTo( newPosition.getX() * gridWidth + gridWidth / 2, newPosition.getY() * gridHeight + gridHeight / 2));
+
+            PathTransition pathTransition = new PathTransition();
+            pathTransition.setDuration(Duration.millis(MenuController.delay * 0.8));
+            pathTransition.setNode(animalNode);
+            pathTransition.setPath(path);
+            myNodesMap1.get(oldPosition).remove(animalNode);
+            myNodesMap1.get(newPosition).addLast(animalNode);
+
+            pathTransition.play();
+//            animalNode.setTranslateX(newPosition.getX() * gridWidth);
+//            animalNode.setTranslateY(newPosition.getY() * gridHeight);
+        }
+
+
+    }
+
     public void drawAnimalsAndPlantsOnMap1(EvolutionSimulatorMap map1){
         double gridWidth = width / rows;
         double gridHeight = height / columns;
@@ -261,9 +307,9 @@ public class EvolutionSimulatorController {
 
     public void removePreviousAnimalsAndPlantsFromMap1(EvolutionSimulatorMap map1){
         LinkedList<Plant> plants1 = new LinkedList<>(map1.getPlants().values());
-        LinkedList<Animal> animals1 = new LinkedList<>(map1.getAnimalList());
-        for(Animal animal:animals1){
-            Vector2d position = animal.getPosition();
+        LinkedList<Vector2d> animalsPosition1 = new LinkedList<>(previousAnimalsPositions.values());
+        for(Vector2d position:animalsPosition1){
+//            Vector2d position = animal.getPosition();
             AnimalNode animalNode;
             LinkedList<Node> nodes = new LinkedList<>(myNodesMap1.get(position));
             for(Node node:nodes){

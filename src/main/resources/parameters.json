@@ -5,6 +5,6 @@
   "moveEnergy": 2,
   "startEnergy": 30,
   "plantEnergy": 10,
-  "numberOfAnimalsToSpawn": 10,
+  "numberOfAnimalsToSpawn": 2,
   "refreshingTime": 500
 }
