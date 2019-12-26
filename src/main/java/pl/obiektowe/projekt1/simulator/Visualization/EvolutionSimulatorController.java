@@ -242,6 +242,7 @@ public class EvolutionSimulatorController {
             Vector2d oldPosition = (Vector2d) pair.getValue();
             AnimalNode animalNode = (AnimalNode) myNodesMap1.get(oldPosition).getLast();
             animalNode.toFront();
+            animalNode.changeColorOfAnimal(map1.colorForAnimal(animal));
 
             Path path = new Path();
             path.getElements().add (new MoveTo( animalNode.getTranslateX() + animalNode.getBoundsInParent().getWidth() / 2.0, animalNode.getTranslateY() + animalNode.getBoundsInParent().getHeight() / 2.0));
@@ -269,14 +270,58 @@ public class EvolutionSimulatorController {
             anchorPaneMap1.getChildren().add(plantNode);
             plantNode.toFront();
         }
-        for(Animal animal:map1.getAnimalList()) {
-            Color color = map1.colorForAnimal(animal);
-            int i = animal.getPosition().getX();
-            int j = animal.getPosition().getY();
-            AnimalNode node = new AnimalNode(i * gridWidth, j * gridHeight, gridWidth /3, gridHeight /3 , color);
-            Vector2d position = new Vector2d(i,j);
-            myNodesMap1.get(position).add(node);
-            anchorPaneMap1.getChildren().add(node);
+        if(previousAnimalsPositions.size() < map1.getAnimalList().size()) {
+            LinkedList<Animal> newAnimals = new LinkedList<>(map1.getAnimalList());
+            for(Animal existedAnimal: previousAnimalsPositions.keySet()){
+                newAnimals.remove(existedAnimal);
+            }
+            for (Animal newAnimal : newAnimals) {
+                Color color = map1.colorForAnimal(newAnimal);
+                int i = newAnimal.getPosition().getX();
+                int j = newAnimal.getPosition().getY();
+                AnimalNode node = new AnimalNode(i * gridWidth, j * gridHeight, gridWidth / 3, gridHeight / 3, color);
+                Vector2d position = new Vector2d(i, j);
+                myNodesMap1.get(position).add(node);
+                anchorPaneMap1.getChildren().add(node);
+            }
+        }
+    }
+    public void removePreviousAnimalsFromMap1(EvolutionSimulatorMap map1){
+        if (previousAnimalsPositions.size() > map1.getAnimalList().size()) {
+            LinkedList<Animal> deadAnimals = new LinkedList<>(previousAnimalsPositions.keySet());
+            //remove living animals from list of death ones
+            for(Animal livingAnimal:map1.getAnimalList()){
+                deadAnimals.remove(livingAnimal);
+            }
+            for(Animal deadAnimal:deadAnimals){
+                Vector2d position = deadAnimal.getPosition();
+                AnimalNode animalNode;
+                LinkedList<Node> nodes = new LinkedList<>(myNodesMap1.get(position));
+                for(Node node:nodes){
+                    if(node instanceof AnimalNode){
+                        animalNode = (AnimalNode) node;
+                        myNodesMap1.get(position).remove(animalNode);
+                        anchorPaneMap1.getChildren().remove(animalNode);
+                    }
+                }
+            }
+        }
+    }
+    public void removePreviousPlantsFromMap1(EvolutionSimulatorMap map1){
+        LinkedList<Plant> plants1 = new LinkedList<>(map1.getPlants().values());
+        for(Plant plant:plants1){
+//            int i = plant.getPosition().getX();
+//            int j = plant.getPosition().getY();
+            Vector2d position = plant.getPosition();
+            PlantNode plantNode;
+            LinkedList<Node> nodes = new LinkedList<>(myNodesMap1.get(position));
+            for(Node node:nodes){
+                if(node instanceof PlantNode){
+                    plantNode = (PlantNode) node;
+                    myNodesMap1.get(position).remove(plantNode);
+                    anchorPaneMap1.getChildren().remove(plantNode);
+                }
+            }
         }
     }
 
