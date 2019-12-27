@@ -39,8 +39,7 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
     private LinkedList<Animal> animalList = new LinkedList<>();
 
     //statistic observers
-    public ArrayList<IStatisticObserver> statisticObservers = new ArrayList<>();
-
+    public Log statistics;
     //static arrayList to generate random Positions in Jungle or Steppe
     private static ArrayList<Vector2d> jungle;
     private static ArrayList<Vector2d> steppe;
@@ -86,7 +85,7 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
             }
         }
 
-        addObservers(new Log());
+        statistics = new Log();
     }
 
     public EvolutionSimulatorMap(StartParameters parameters){
@@ -344,23 +343,15 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         spawnGrassInSteppeAndJungle();
         LinkedList<Animal> deadAnimals = removeDeadAnimals();
         if(!isOneOrLessAnimal()) {
-            notifyObservers(animalList, plants.size(), deadAnimals);
+            makeStatistics(animalList, plants.size(), deadAnimals);
         }
     }
 
-    public void addObservers(IStatisticObserver observer){
-        statisticObservers.add(observer);
+
+    public void makeStatistics(LinkedList<Animal> animals, int numberOfPlants, LinkedList<Animal> deadAnimals) {
+        statistics.makeStatisticOfDay(animals, numberOfPlants, deadAnimals);
     }
 
-    public void removeObservers(IStatisticObserver observer){
-        statisticObservers.remove(observer);
-    }
-
-    public void notifyObservers(LinkedList<Animal> animals, int numberOfPlants, LinkedList<Animal> deadAnimals){
-        for(IStatisticObserver observer:statisticObservers){
-            observer.makeStatisticOfDay(animalList, numberOfPlants, deadAnimals);
-        }
-    }
     @Override
     public Object objectAt(Vector2d position) {
         Object result;
