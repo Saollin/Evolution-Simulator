@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
@@ -72,7 +73,7 @@ public class MenuController {
         refreshingTime.setOnKeyPressed(new KeyHandle());
         startButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                Parent root;
+                SplitPane root;
                 try {
                     map1 = new EvolutionSimulatorMap(startParameters);
                     map2 = new EvolutionSimulatorMap(startParameters);
@@ -81,12 +82,14 @@ public class MenuController {
                         map1.placeAnimalInRandomFieldInJungle();
                         map2.placeAnimalInRandomFieldInJungle();
                     }
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/EvolutionSimulator.fxml"));
-                    root = (Parent) loader.load();
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(getClass().getResource("/fxml/EvolutionSimulator.fxml"));
+                    loader.setController(new EvolutionSimulatorController(map1, map2));
+                    root = (SplitPane) loader.load();
                     EvolutionSimulatorController controller = loader.getController();
                     Stage stage = new Stage();
                     stage.setMaximized(true);
-                    stage.setTitle("My New Stage Title");
+                    stage.setTitle("Evolution Simulator");
                     stage.setScene(new Scene(root));
                     stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                         @Override
