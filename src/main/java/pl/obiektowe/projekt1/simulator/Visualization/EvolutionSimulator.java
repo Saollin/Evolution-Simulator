@@ -9,7 +9,7 @@ import pl.obiektowe.projekt1.simulator.DataModel.StartParameters;
 
 import java.io.IOException;
 
-public class Main extends Application {
+public class EvolutionSimulator extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
