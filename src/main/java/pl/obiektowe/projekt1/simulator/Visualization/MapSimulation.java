@@ -68,7 +68,7 @@ public class MapSimulation implements ActionListener {
         renderPanel.repaint();
         map.oneDay();
         //        statisticPanel.updateStatistics(log.getStatisticOfDay(plotRenderPanel.getTotalDays()));
-        if(map.isOnlyOneAnimal()) {
+        if(map.isOneOrLessAnimal()) {
             timer.stop();
         }
     }

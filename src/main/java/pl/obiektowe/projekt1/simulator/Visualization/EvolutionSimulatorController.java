@@ -1,29 +1,18 @@
 package pl.obiektowe.projekt1.simulator.Visualization;
 
 import javafx.animation.KeyFrame;
-import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.*;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import pl.obiektowe.projekt1.simulator.Classes.*;
 
 import java.io.IOException;
-import java.util.*;
 
 public class EvolutionSimulatorController {
 
@@ -82,13 +71,13 @@ public class EvolutionSimulatorController {
                 new EventHandler<javafx.event.ActionEvent>() {
                     @Override
                     public void handle(javafx.event.ActionEvent actionEvent) {
-                        if(!map1.isOnlyOneAnimal()){
+                        if(!map1.isOneOrLessAnimal()){
                             controllerOfMap1.animation();
                         }
-                        if(!map2.isOnlyOneAnimal()){
+                        if(!map2.isOneOrLessAnimal()){
                             controllerOfMap2.animation();
                         }
-                        if(map1.isOnlyOneAnimal() && map2.isOnlyOneAnimal()){
+                        if(map1.isOneOrLessAnimal() && map2.isOneOrLessAnimal()){
                             timeline.stop();
                         }
                         }

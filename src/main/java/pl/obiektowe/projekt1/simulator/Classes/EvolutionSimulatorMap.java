@@ -343,7 +343,7 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         reproduction();
         spawnGrassInSteppeAndJungle();
         LinkedList<Animal> deadAnimals = removeDeadAnimals();
-        if(!isOnlyOneAnimal()) {
+        if(!isOneOrLessAnimal()) {
             notifyObservers(animalList, plants.size(), deadAnimals);
         }
     }
@@ -401,8 +401,8 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         return Color.web("rgb(75, 0, 20)");
     }
 
-    public boolean isOnlyOneAnimal(){
-        return animalList.size()  == 1;
+    public boolean isOneOrLessAnimal(){
+        return animalList.size()  <= 1;
     }
 
     public Map<Vector2d, Plant> getPlants() {

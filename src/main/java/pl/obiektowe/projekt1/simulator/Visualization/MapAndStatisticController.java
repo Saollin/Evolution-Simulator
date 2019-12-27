@@ -1,10 +1,6 @@
 package pl.obiektowe.projekt1.simulator.Visualization;
 
-import javafx.animation.KeyFrame;
 import javafx.animation.PathTransition;
-import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -92,7 +88,7 @@ public class MapAndStatisticController {
             drawAnimalsAndPlants();
             alreadyExecuted = true;
         }
-        if(!map.isOnlyOneAnimal()){
+        if(!map.isOneOrLessAnimal()){
             removePreviousPlants();
             getPreviousAnimalsPositions();
             map.oneDay();
