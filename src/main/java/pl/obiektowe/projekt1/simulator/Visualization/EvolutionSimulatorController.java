@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.util.Duration;
 import pl.obiektowe.projekt1.simulator.Classes.*;
@@ -29,6 +30,7 @@ public class EvolutionSimulatorController {
 
 
     public Timeline timeline;
+    public static int whichDay = 0;
 
     @FXML
     private Button saveButton;
@@ -41,6 +43,9 @@ public class EvolutionSimulatorController {
 
     @FXML
     private SplitPane mainSplitPane;
+
+    @FXML
+    private Label numberOfDay;
 
     private EvolutionSimulatorMap map1;
     private EvolutionSimulatorMap map2;
@@ -71,6 +76,8 @@ public class EvolutionSimulatorController {
                 new EventHandler<javafx.event.ActionEvent>() {
                     @Override
                     public void handle(javafx.event.ActionEvent actionEvent) {
+                        whichDay++;
+                        numberOfDay.setText(whichDay+"");
                         if(!map1.isOneOrLessAnimal()){
                             controllerOfMap1.animation();
                         }

@@ -100,7 +100,7 @@ public class StatisticPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            Log log = (Log) map.statisticObservers.get(0);
+            Log log = map.statistics;
             log.saveAverageStaticAfterGivenNumberOfDay(log.statics.size());
         } catch (IOException ex) {
             ex.printStackTrace();

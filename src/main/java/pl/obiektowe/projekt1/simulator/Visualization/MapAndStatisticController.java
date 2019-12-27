@@ -98,6 +98,10 @@ public class MapAndStatisticController {
         }
     }
 
+//    public void setStatistics(){
+//        numberOfAnimals
+//    }
+
     public void drawSteppeAndJungle(){
         double gridWidth = width / rows;
         double gridHeight = height / columns;
