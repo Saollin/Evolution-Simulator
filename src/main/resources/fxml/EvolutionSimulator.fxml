@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.08, 0.98" orientation="VERTICAL" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<SplitPane dividerPositions="0.08, 0.97" orientation="VERTICAL" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <items>
       <GridPane>
         <columnConstraints>
@@ -33,11 +33,11 @@
       </GridPane>
         <SplitPane fx:id="mainSplitPane">
         </SplitPane>
-      <GridPane alignment="BOTTOM_CENTER" hgap="10.0">
+      <GridPane alignment="CENTER" hgap="10.0">
          <children>
-            <Button fx:id="stopButton" mnemonicParsing="false" text="Stop" GridPane.halignment="RIGHT" />
-            <Button fx:id="startButton" mnemonicParsing="false" text="Start" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
-            <Button fx:id="saveButton" mnemonicParsing="false" text="Save" GridPane.columnIndex="2" />
+            <Button fx:id="stopButton" text="Stop" GridPane.halignment="RIGHT" />
+            <Button fx:id="startButton" text="Start" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+            <Button fx:id="saveButton" text="Save" GridPane.columnIndex="2" />
          </children>
          <columnConstraints>
             <ColumnConstraints halignment="RIGHT" percentWidth="45.0" />
