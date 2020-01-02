@@ -92,6 +92,7 @@ public class MenuController {
                         @Override
                         public void handle(WindowEvent windowEvent) {
                             controller.timeline.stop();
+                            controller.whichDay = 0;
                         }
                     });
                     stage.show();
