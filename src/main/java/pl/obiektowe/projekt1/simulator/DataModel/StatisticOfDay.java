@@ -10,16 +10,18 @@ public class StatisticOfDay {
     private int numberOfPlants;
     private HashMap<Integer, LinkedList<Genotype>> dominantGenotypes;
     private int numberOfDominantGenotypes;
+    private Genotype dominantGenotype;
     private double averageEnergyOfLivingAnimals;
     private double averageLifetimeOfDeadAnimals;
     private double averageNumberChildOfLivingAnimals;
 
     public StatisticOfDay(int numberOfAnimal, int numberOfPlants, HashMap<Integer, LinkedList<Genotype>> dominantGenotypes,
-            double averageEnergyOfLivingAnimals, double averageLifetimeOfDeadAnimals, double averageNumberChildOfLivingAnimals,
-            int numberOfDominantGenotypes) {
+            Genotype dominantGenotype, double averageEnergyOfLivingAnimals, double averageLifetimeOfDeadAnimals,
+            double averageNumberChildOfLivingAnimals, int numberOfDominantGenotypes) {
         this.numberOfAnimal = numberOfAnimal;
         this.numberOfPlants = numberOfPlants;
         this.dominantGenotypes = dominantGenotypes;
+        this.dominantGenotype = dominantGenotype;
         this.averageEnergyOfLivingAnimals = averageEnergyOfLivingAnimals;
         this.averageLifetimeOfDeadAnimals = averageLifetimeOfDeadAnimals;
         this.averageNumberChildOfLivingAnimals = averageNumberChildOfLivingAnimals;
@@ -66,5 +68,10 @@ public class StatisticOfDay {
     public int getNumberOfDominantGenotypes() {
         return numberOfDominantGenotypes;
     }
+
+    public Genotype getDominantGenotype() {
+        return dominantGenotype;
+    }
+
 
 }

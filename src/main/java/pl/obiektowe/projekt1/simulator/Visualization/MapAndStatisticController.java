@@ -16,6 +16,8 @@ import pl.obiektowe.projekt1.simulator.Classes.Animal;
 import pl.obiektowe.projekt1.simulator.Classes.EvolutionSimulatorMap;
 import pl.obiektowe.projekt1.simulator.Classes.Plant;
 import pl.obiektowe.projekt1.simulator.Classes.Vector2d;
+import pl.obiektowe.projekt1.simulator.DataModel.Log;
+import pl.obiektowe.projekt1.simulator.DataModel.StatisticOfDay;
 
 import java.util.*;
 
@@ -98,9 +100,15 @@ public class MapAndStatisticController {
         }
     }
 
-//    public void setStatistics(){
-//        numberOfAnimals
-//    }
+    public void setStatistics(){
+        StatisticOfDay statisticOfDay = map.statistics.getStatisticOfDay(EvolutionSimulatorController.whichDay-1);
+        numberOfAnimals.setText(statisticOfDay.getNumberOfAnimal()+"");
+        numberOfPlants.setText(statisticOfDay.getNumberOfPlants()+"");
+        averageEnergyOfLivingAnimals.setText(statisticOfDay.getAverageEnergyOfLivingAnimals()+"");
+        averageLifetimeOfDeadAnimals.setText(statisticOfDay.getAverageLifetimeOfDeadAnimals()+"");
+        averageNumberChildOfLivingAnimals.setText(statisticOfDay.getAverageNumberChildOfLivingAnimals()+"");
+        dominantGenotype.setText(statisticOfDay.getDominantGenotype().toString());
+    }
 
     public void drawSteppeAndJungle(){
         double gridWidth = width / rows;

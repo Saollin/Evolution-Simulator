@@ -80,9 +80,11 @@ public class EvolutionSimulatorController {
                         numberOfDay.setText(whichDay+"");
                         if(!map1.isOneOrLessAnimal()){
                             controllerOfMap1.animation();
+                            controllerOfMap1.setStatistics();
                         }
                         if(!map2.isOneOrLessAnimal()){
                             controllerOfMap2.animation();
+                            controllerOfMap2.setStatistics();
                         }
                         if(map1.isOneOrLessAnimal() && map2.isOneOrLessAnimal()){
                             timeline.stop();
