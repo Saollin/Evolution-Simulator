@@ -104,9 +104,9 @@ public class MapAndStatisticController {
         StatisticOfDay statisticOfDay = map.statistics.getStatisticOfDay(EvolutionSimulatorController.whichDay-1);
         numberOfAnimals.setText(statisticOfDay.getNumberOfAnimal()+"");
         numberOfPlants.setText(statisticOfDay.getNumberOfPlants()+"");
-        averageEnergyOfLivingAnimals.setText(statisticOfDay.getAverageEnergyOfLivingAnimals()+"");
-        averageLifetimeOfDeadAnimals.setText(statisticOfDay.getAverageLifetimeOfDeadAnimals()+"");
-        averageNumberChildOfLivingAnimals.setText(statisticOfDay.getAverageNumberChildOfLivingAnimals()+"");
+        averageEnergyOfLivingAnimals.setText(String.format("%.2f", statisticOfDay.getAverageEnergyOfLivingAnimals()));
+        averageLifetimeOfDeadAnimals.setText(String.format("%.2f", statisticOfDay.getAverageLifetimeOfDeadAnimals()));
+        averageNumberChildOfLivingAnimals.setText(String.format("%.2f", statisticOfDay.getAverageNumberChildOfLivingAnimals()));
         dominantGenotype.setText(statisticOfDay.getDominantGenotype().toString());
     }
 
