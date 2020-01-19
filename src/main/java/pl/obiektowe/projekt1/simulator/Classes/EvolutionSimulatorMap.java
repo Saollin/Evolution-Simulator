@@ -342,9 +342,7 @@ public class EvolutionSimulatorMap implements IPositionChangeObserver, IWorldMap
         reproduction();
         spawnGrassInSteppeAndJungle();
         LinkedList<Animal> deadAnimals = removeDeadAnimals();
-        if(!isOneOrLessAnimal()) {
-            makeStatistics(animalList, plants.size(), deadAnimals);
-        }
+        makeStatistics(animalList, plants.size(), deadAnimals);
     }
 
 
