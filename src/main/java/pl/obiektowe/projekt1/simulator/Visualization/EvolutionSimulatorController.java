@@ -104,6 +104,16 @@ public class EvolutionSimulatorController {
                 timeline.play();
             }
         });
+        saveButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try {
+                    map1.statistics.saveAverageStaticAfterGivenNumberOfDay(whichDay);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 //    @Override
