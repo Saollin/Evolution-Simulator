@@ -15,8 +15,8 @@ class EvolutionSimulatorMapTest {
     private EvolutionSimulatorMap map = new EvolutionSimulatorMap(100,100,0.25,20,1, 4);
 
     @Test
-    void shouldCreatingNewMapLastNoLongerThan5Ms(){
-        assertTimeout(Duration.ofMillis(5), () -> {
+    void shouldCreatingNewMapLastNoLongerThan15Ms(){
+        assertTimeout(Duration.ofMillis(15), () -> {
             EvolutionSimulatorMap newMap = new EvolutionSimulatorMap(100,100,0.5, 20,1,10);
         });
     }
