@@ -1,6 +1,8 @@
-package pl.obiektowe.projekt1.simulator.Visualization;
+package pl.obiektowe.projekt1.simulator.Swing;
 
 import pl.obiektowe.projekt1.simulator.Classes.EvolutionSimulatorMap;
+import pl.obiektowe.projekt1.simulator.Swing.FunctionPlot;
+import pl.obiektowe.projekt1.simulator.Swing.MapSimulation;
 
 import javax.swing.*;
 import java.awt.*;

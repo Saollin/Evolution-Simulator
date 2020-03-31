@@ -1,17 +1,14 @@
-package pl.obiektowe.projekt1.simulator.Visualization;
+package pl.obiektowe.projekt1.simulator.Swing;
 
 import pl.obiektowe.projekt1.simulator.Classes.EvolutionSimulatorMap;
-import pl.obiektowe.projekt1.simulator.Classes.Genotype;
-import pl.obiektowe.projekt1.simulator.Classes.Log;
-import pl.obiektowe.projekt1.simulator.Classes.StatisticOfDay;
+import pl.obiektowe.projekt1.simulator.DataModel.Log;
+import pl.obiektowe.projekt1.simulator.DataModel.StatisticOfDay;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedList;
 
 public class StatisticPanel extends JPanel implements ActionListener {
 
@@ -103,7 +100,7 @@ public class StatisticPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            Log log = (Log) map.statisticObservers.get(0);
+            Log log = map.statistics;
             log.saveAverageStaticAfterGivenNumberOfDay(log.statics.size());
         } catch (IOException ex) {
             ex.printStackTrace();

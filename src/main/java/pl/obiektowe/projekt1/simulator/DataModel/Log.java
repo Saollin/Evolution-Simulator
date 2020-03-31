@@ -1,6 +1,8 @@
-package pl.obiektowe.projekt1.simulator.Classes;
+package pl.obiektowe.projekt1.simulator.DataModel;
 
 import org.json.simple.JSONObject;
+import pl.obiektowe.projekt1.simulator.Classes.Animal;
+import pl.obiektowe.projekt1.simulator.Classes.Genotype;
 import pl.obiektowe.projekt1.simulator.Interfaces.IStatisticObserver;
 
 import java.io.FileWriter;
@@ -15,12 +17,13 @@ public class Log implements IStatisticObserver {
     @Override
     public void makeStatisticOfDay(LinkedList<Animal> animals, int numberOfPlants, LinkedList<Animal> deadAnimals) {
         int numberOfAnimal = animals.size();
-        HashMap<Integer, LinkedList<Genotype>> dominantGenotype = countDominantGenotype(genotypesOfAnimals(animals));
+        HashMap<Integer, LinkedList<Genotype>> dominantGenotypes = countDominantGenotype(genotypesOfAnimals(animals));
         double averageEnergy = countAverageEnergyOfLivingAnimals(animals);
         double averageLifetime = countAverageLifetimeOfDeadAnimals(deadAnimals);
         double averageChildNumber = countAverageNumberChildOfLivingAnimals(animals);
-        int numberOfDominantGenotypes = countNumberOfDominantGenotypes(dominantGenotype);
-        StatisticOfDay oneDay = new StatisticOfDay(numberOfAnimal, numberOfPlants, dominantGenotype,
+        int numberOfDominantGenotypes = countNumberOfDominantGenotypes(dominantGenotypes);
+        Genotype dominantGenotype = dominantGenotypes.get(numberOfDominantGenotypes).getFirst();
+        StatisticOfDay oneDay = new StatisticOfDay(numberOfAnimal, numberOfPlants, dominantGenotypes, dominantGenotype,
                 averageEnergy, averageLifetime, averageChildNumber, numberOfDominantGenotypes);
         statics.add(oneDay);
     }
@@ -131,7 +134,8 @@ public class Log implements IStatisticObserver {
         averageChildNumber /= numberOfDays;
         HashMap<Integer, LinkedList<Genotype>> averageDominantGenotypes = countDominantGenotype(unorderedGenotypes);
         int numberOfDominantGenotypes = countNumberOfDominantGenotypes(averageDominantGenotypes);
-        return new StatisticOfDay((int) numberOfAnimal, (int) numberOfPlants, averageDominantGenotypes,
+        Genotype averageGenotype = averageDominantGenotypes.get(numberOfDominantGenotypes).getFirst();
+        return new StatisticOfDay((int) numberOfAnimal, (int) numberOfPlants, averageDominantGenotypes, averageGenotype,
                 averageEnergy,averageLifetime,averageChildNumber,numberOfDominantGenotypes);
     }
 }

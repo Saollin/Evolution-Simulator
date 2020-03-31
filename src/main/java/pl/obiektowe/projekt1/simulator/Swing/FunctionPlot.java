@@ -1,4 +1,4 @@
-package pl.obiektowe.projekt1.simulator.Visualization;
+package pl.obiektowe.projekt1.simulator.Swing;
 
 public class FunctionPlot {
     public int width;

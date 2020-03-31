@@ -1,8 +1,8 @@
-package pl.obiektowe.projekt1.simulator.Visualization;
+package pl.obiektowe.projekt1.simulator.Swing;
 
-import pl.obiektowe.projekt1.simulator.Classes.Animal;
 import pl.obiektowe.projekt1.simulator.Classes.EvolutionSimulatorMap;
 import pl.obiektowe.projekt1.simulator.Classes.Plant;
+import pl.obiektowe.projekt1.simulator.Swing.MapSimulation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,12 +48,12 @@ public class RenderPanel extends JPanel {
             g.fillRect(x, y, widthScale, heightScale);
         }
         //draw Animals
-        for (Animal a : map.getAnimalList()) {
-            g.setColor(map.colorForAnimal(a));
-            int y = map.countRightPositionOnTheMap(a.getPosition()).getY() * heightScale;
-            int x = map.countRightPositionOnTheMap(a.getPosition()).getX() * widthScale;
-            g.fillOval(x, y, widthScale, heightScale);
-        }
+//        for (Animal a : map.getAnimalList()) {
+//            g.setColor(map.colorForAnimal(a));
+//            int y = map.countRightPositionOnTheMap(a.getPosition()).getY() * heightScale;
+//            int x = map.countRightPositionOnTheMap(a.getPosition()).getX() * widthScale;
+//            g.fillOval(x, y, widthScale, heightScale);
+//        }
     }
 
 }

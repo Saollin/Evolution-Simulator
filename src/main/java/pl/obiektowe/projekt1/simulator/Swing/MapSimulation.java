@@ -1,7 +1,7 @@
-package pl.obiektowe.projekt1.simulator.Visualization;
+package pl.obiektowe.projekt1.simulator.Swing;
 
 import pl.obiektowe.projekt1.simulator.Classes.EvolutionSimulatorMap;
-import pl.obiektowe.projekt1.simulator.Classes.Log;
+import pl.obiektowe.projekt1.simulator.DataModel.Log;
 
 import javax.swing.*;
 import java.awt.*;
@@ -55,7 +55,6 @@ public class MapSimulation implements ActionListener {
     }
 
     public void startSimulation() {
-
         for (int i = 0; i < startNumOfAnimals; i++) {
             map.placeAnimalInRandomFieldInJungle();
         }
@@ -68,9 +67,8 @@ public class MapSimulation implements ActionListener {
         plotRenderPanel.repaint();
         renderPanel.repaint();
         map.oneDay();
-
         //        statisticPanel.updateStatistics(log.getStatisticOfDay(plotRenderPanel.getTotalDays()));
-        if(map.isOnlyOneAnimal()) {
+        if(map.isOneOrLessAnimal()) {
             timer.stop();
         }
     }
